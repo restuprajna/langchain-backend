@@ -20,7 +20,7 @@ COPY ./package[s] ./packages
 
 RUN poetry install  --no-interaction --no-ansi --no-root
 
-COPY ./app ./app
+COPY ./my-app ./my-app
 
 RUN poetry install --no-interaction --no-ansi
 
