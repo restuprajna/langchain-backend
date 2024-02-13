@@ -7,8 +7,9 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_google_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
 
-
+load_dotenv()
 # Get project, data store, and model type from env variables
 # project_id = os.environ.get("GOOGLE_CLOUD_PROJECT_ID")
 # data_store_id = os.environ.get("DATA_STORE_ID")
@@ -46,7 +47,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 #     | StrOutputParser()
 # )
 
-llm = ChatGoogleGenerativeAI(model="gemini-pro")
+
+google_api: str = os.environ["GOOGLE_API_KEY"]
+llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=google_api)
 
 
 
