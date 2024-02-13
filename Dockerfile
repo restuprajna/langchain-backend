@@ -4,6 +4,7 @@ RUN pip install --upgrade pip
 RUN pip install langchain
 RUN pip install -U langchain-cli
 RUN pip install langchain_google_genai
+RUN pip install -U langchain-community
 
 RUN pip install poetry==1.6.1
 
