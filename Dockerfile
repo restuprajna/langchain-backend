@@ -16,7 +16,7 @@ COPY ./app ./app
 
 RUN poetry install --no-interaction --no-ansi
 
-COPY requirements.txt /app/requirements.txt
+COPY requirements.txt /my-app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
