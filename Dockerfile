@@ -22,6 +22,8 @@ COPY ./app ./app
 
 RUN poetry install --no-interaction --no-ansi
 
+ENV GIT_PYTHON_REFRESH=quiet
+
 # COPY requirements.txt /my-app/requirements.txt
 # RUN pip install -r requirements.txt
 
