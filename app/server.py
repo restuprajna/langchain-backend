@@ -8,10 +8,15 @@ load_dotenv()
 app = FastAPI()
 
 
-@app.get("/")
-async def redirect_root_to_docs():
-    return RedirectResponse("/docs")
+# @app.get("/")
+# async def redirect_root_to_docs():
+#     return RedirectResponse("/docs")
 
+@app.get("/")
+def root():
+    return {
+        "message": "Welcome to the langserve server! More information and routes can be found at /docs. 🦜 🏓",
+    }
 
 
 # Edit this to add the chain you want to add
