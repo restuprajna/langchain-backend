@@ -25,7 +25,7 @@ RUN poetry install --no-interaction --no-ansi
 # COPY requirements.txt /my-app/requirements.txt
 # RUN pip install -r requirements.txt
 
-RUN pip install python-dotenv
+# RUN pip install python-dotenv
 
 EXPOSE 8080
 
