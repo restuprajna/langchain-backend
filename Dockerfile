@@ -5,12 +5,14 @@ FROM python:3.11-slim
 # RUN pip install -U langchain-cli
 RUN pip install langchain_google_genai
 # RUN pip install -U langchain-community
+ENV GIT_PYTHON_REFRESH=quiet
+
 
 RUN pip install poetry==1.6.1
 
 RUN poetry config virtualenvs.create false
 
-WORKDIR /code
+WORKDIR /myapp
 
 COPY ./pyproject.toml ./README.md ./poetry.lock* ./
 
@@ -22,7 +24,6 @@ COPY ./app ./app
 
 RUN poetry install --no-interaction --no-ansi
 
-ENV GIT_PYTHON_REFRESH=quiet
 
 # COPY requirements.txt /my-app/requirements.txt
 # RUN pip install -r requirements.txt
