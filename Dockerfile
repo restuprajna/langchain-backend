@@ -1,6 +1,8 @@
 FROM python:3.11-slim
 
 RUN pip install --upgrade pip
+RUN pip install langchain
+RUN pip install -U langchain-cli
 
 
 RUN pip install poetry==1.6.1
