@@ -9,7 +9,7 @@ readme = "README.md"
 python = ">=3.8.1,<4.0"
 langchain = "^0.1"
 google-cloud-aiplatform = ">=1.35.0"
-rag-google-cloud-vertexai-search = { path = "packages/rag-google-cloud-vertexai-search" }
+
 
 
 [tool.poetry.group.dev.dependencies]
