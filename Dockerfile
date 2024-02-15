@@ -25,7 +25,7 @@ COPY ./app ./app
 
 RUN poetry install --no-interaction --no-ansi
 
-# EXPOSE $PORT
+EXPOSE 8080
 
 
 # COPY requirements.txt /my-app/requirements.txt
