@@ -7,7 +7,6 @@ RUN pip install langchain_google_genai
 RUN pip install -U langchain-community
 ENV GIT_PYTHON_REFRESH=quiet
 
-ENV PORT=8080
 
 RUN pip install poetry==1.6.1
 
@@ -25,9 +24,11 @@ COPY ./app ./app
 
 RUN poetry install --no-interaction --no-ansi
 
-ENV PORT=8080
+
 
 EXPOSE 8080
+
+ENV PORT=8080
 
 
 
