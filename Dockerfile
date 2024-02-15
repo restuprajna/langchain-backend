@@ -7,6 +7,7 @@ RUN pip install langchain_google_genai
 RUN pip install -U langchain-community
 ENV GIT_PYTHON_REFRESH=quiet
 
+ENV PORT=8080
 
 RUN pip install poetry==1.6.1
 
@@ -24,6 +25,8 @@ COPY ./app ./app
 
 RUN poetry install --no-interaction --no-ansi
 
+EXPOSE $PORT
+
 
 # COPY requirements.txt /my-app/requirements.txt
 # RUN pip install -r requirements.txt
@@ -32,4 +35,6 @@ RUN poetry install --no-interaction --no-ansi
 
 EXPOSE 8080
 
-CMD exec uvicorn app.server:app --host 0.0.0.0 --port 8080
+# CMD exec uvicorn app.server:app --host 0.0.0.0 --port 8080
+
+CMD ["langchain", "serve", "--host", "0.0.0.0", "--port", "$PORT"]
