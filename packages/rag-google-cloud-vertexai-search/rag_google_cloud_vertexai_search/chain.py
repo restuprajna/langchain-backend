@@ -1,6 +1,6 @@
 import os
 
-# from langchain.retrievers import GoogleVertexAISearchRetriever
+from langchain_community.retrievers import GoogleVertexAISearchRetriever
 # from langchain_community.chat_models import ChatVertexAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -13,6 +13,7 @@ load_dotenv
 # Get project, data store, and model type from env variables
 # project_id = os.environ.get("GOOGLE_CLOUD_PROJECT_ID")
 # data_store_id = os.environ.get("DATA_STORE_ID")
+# location = "global"
 # model_type = os.environ.get("MODEL_TYPE")
 
 # if not data_store_id:
@@ -27,9 +28,14 @@ load_dotenv
 # Set LLM and embeddings
 # model = ChatVertexAI(model_name=model_type, temperature=0.0)
 
+# google_api: str = os.environ["GOOGLE_API_KEY"]
+# llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=google_api)
+
 # Create Vertex AI retriever
 # retriever = GoogleVertexAISearchRetriever(
-#     project_id=project_id, search_engine_id=data_store_id
+#     project_id=project_id, 
+#     search_engine_id=data_store_id,
+#     location=location
 # )
 
 # RAG prompt
@@ -39,11 +45,11 @@ load_dotenv
 # """
 # prompt = ChatPromptTemplate.from_template(template)
 
-# RAG
+# # RAG
 # chain = (
 #     RunnableParallel({"context": retriever, "question": RunnablePassthrough()})
 #     | prompt
-#     | model
+#     | llm
 #     | StrOutputParser()
 # )
 
@@ -53,7 +59,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=google_api)
 
 
 
-user_prompt = "Saya akan menguji kemampuan siswa saya tentang Menilai penguasaan pengetahuan dan kemampuan Pilar Negara yaitu Mampu membentuk karakter positif melalui pemahaman dan pengamalan nilai-nilai dalam pancasila, UUD 1945, NKRI, dan Bhinneka Tunggal Ika dalam pembelajaran Seleksi Kompetensi Dasar - Tes Wawasan Kebangsaan sub bagian Pilar Negara. Sekarang, saya ingin membuat soal untuk menguji kemampuan siswa tersebut. Buatlah soal baru berbentuk pilihan ganda dengan tujuan Pemahaman materi Pancasila sebagai Paradigma Pembangunan, dengan harapan Mengerti dan memahami tentang pilar negara serta Pancasila sebagai dasar, falsafah dan ideologi negara, Mengerti dan memahami konsep Pancasila sebagai ideologi terbuka dan sumber nilai, serta butir-butir pengamalan Pancasila berdasarkan Bloom Taksonomi 2001 level Menganalisis (C4). Gunakan peristiwa nyata yang terjadi baru-baru ini di Indonesia sebagai stimulus, kemudian buat soal berdasarkan kasus tersebut. Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi. Opsi jawaban harus beragam dan logis namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Hindari bahasa dan kalimat yang terlalu sederhana. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. Soal dibuat beserta pembahasan mengapa pilihan yang benar itu benar."
+# user_prompt = "Saya akan menguji kemampuan siswa saya tentang Menilai penguasaan pengetahuan dan kemampuan Pilar Negara yaitu Mampu membentuk karakter positif melalui pemahaman dan pengamalan nilai-nilai dalam pancasila, UUD 1945, NKRI, dan Bhinneka Tunggal Ika dalam pembelajaran Seleksi Kompetensi Dasar - Tes Wawasan Kebangsaan sub bagian Pilar Negara. Sekarang, saya ingin membuat soal untuk menguji kemampuan siswa tersebut. Buatlah soal baru berbentuk pilihan ganda dengan tujuan Pemahaman materi Pancasila sebagai Paradigma Pembangunan, dengan harapan Mengerti dan memahami tentang pilar negara serta Pancasila sebagai dasar, falsafah dan ideologi negara, Mengerti dan memahami konsep Pancasila sebagai ideologi terbuka dan sumber nilai, serta butir-butir pengamalan Pancasila berdasarkan Bloom Taksonomi 2001 level Menganalisis (C4). Gunakan peristiwa nyata yang terjadi baru-baru ini di Indonesia sebagai stimulus, kemudian buat soal berdasarkan kasus tersebut. Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi. Opsi jawaban harus beragam dan logis namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Hindari bahasa dan kalimat yang terlalu sederhana. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. Soal dibuat beserta pembahasan mengapa pilihan yang benar itu benar."
 
 ANSWER_PROMPT = ChatPromptTemplate.from_template(
     """selalu ikuti instruksi berikut:

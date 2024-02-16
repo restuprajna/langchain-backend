@@ -1,3 +1,5 @@
 langchain
 langchain-cli
 python-dotenv
+google-cloud-discoveryengine
+langchain-community
