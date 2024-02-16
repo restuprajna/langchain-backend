@@ -6,6 +6,8 @@ RUN pip install --upgrade pip
 # RUN pip install langchain_google_genai
 # RUN pip install -U langchain-community
 
+COPY requirements.txt /app/requirements.txt
+
 RUN pip install -r requirements.txt
 
 ENV GIT_PYTHON_REFRESH=quiet
