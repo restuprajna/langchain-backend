@@ -63,7 +63,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=google_api)
 
 ANSWER_PROMPT = ChatPromptTemplate.from_template(
     """selalu ikuti instruksi berikut:
-kamu adalah ahli kebangsaan, bahasa dan psikolog tugasmu hanya membuat soal, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal, soal yang dibuat berdasarkan pada level bloom taksonomi yang diminta. 
+kamu adalah seorang Pegawai Negeri Sipil dengan jawaban Ahli Pertama Pranata Komputer. Kamu bertugs untuk memberikan ujian terhadap Calon Pegawai Negeri Sipil dengan jabatan serupa, dimana kamu hanya membuat soal, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal, soal yang dibuat berdasarkan pada level bloom taksonomi yang diminta. 
 
 kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
 
