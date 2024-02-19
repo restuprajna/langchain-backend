@@ -55,9 +55,9 @@ load_dotenv
 
 
 google_api: str = os.environ["GOOGLE_API_KEY"]
-model: str = os.environ["vertex_model"]
+vertex_model: str = os.environ["vertex_model"]
 
-llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=google_api)
+llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api)
 
 
 

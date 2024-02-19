@@ -58,8 +58,8 @@ load_dotenv
 
 
 openai_api: str = os.environ["OPENAI_API_KEY"]
-model: str = os.environ["gpt_model"]
-llm = ChatOpenAI(model="gpt-3.5-turbo")
+gpt_model: str = os.environ["gpt_model"]
+llm = ChatOpenAI(model=gpt_model)
 
 
 
