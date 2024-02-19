@@ -56,6 +56,7 @@ load_dotenv
 
 google_api: str = os.environ["GOOGLE_API_KEY"]
 model: str = os.environ["vertex_model"]
+
 llm = ChatGoogleGenerativeAI(model=model, google_api_key=google_api)
 
 
