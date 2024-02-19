@@ -19,8 +19,7 @@ def root():
         "message": "Welcome to the langserve server! More information and routes can be found at /docs. 🦜 🏓",
     }
 
-import sys
-print(sys.path)
+
 
 # Edit this to add the chain you want to add
 from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_search_chain
