@@ -2,10 +2,37 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from langserve import add_routes
 from dotenv import load_dotenv
+from fastapi import FastAPI, HTTPException, Header, status, Depends, Request, Response
+from fastapi.security import APIKeyHeader, HTTPBearer
+from langserve import APIHandler
+from langsmith import Client
 
+import os
 load_dotenv()
 
 app = FastAPI()
+
+client = Client()
+
+
+
+# Auth bearer Method
+bearer = HTTPBearer()
+
+async def validate_token(token: str = Depends(bearer)):
+    # Retrieve the expected API key from the environment variable
+    expected_api_key = os.getenv("OPENAI_API_KEY")
+    # print(token)
+    # print(expected_api_key)
+    # Validate the Bearer Token
+    if token.credentials != expected_api_key:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    return token
+
+# Asynchronous function to retrieve the expected API key from the environment variable
+# async def get_expected_api_key():
+#     return os.getenv("OPENAI_API_KEY")
+
 import sys
 sys.path.append("/Users/restuprajna/Developer/langchain-app/vertex-ai/my-app/packages/openai-api")
 
@@ -20,16 +47,45 @@ def root():
     }
 
 
+@app.get("/protected")
+async def protected_route(token: str = Depends(validate_token)):
+    return {"message": "You are authorized!"}
+
+
 
 # Edit this to add the chain you want to add
 from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_search_chain
 
-add_routes(app, rag_google_cloud_vertexai_search_chain, path="/rag-google-cloud-vertexai-search")
+# add_routes(app, rag_google_cloud_vertexai_search_chain, path="/rag-google-cloud-vertexai-search")
+vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/rag-google-cloud-vertexai-search")
+@app.post("/rag-google-cloud-vertexai-search/invoke", include_in_schema=True)
+async def protected_route_vertex(token: str = Depends(validate_token), request: Request = None):
+    """
+    Route protected by token validation.
+    """
+    response = await invoke_api(rag_google_cloud_vertexai_search_chain, "/rag-google-cloud-vertexai-search", request)
+    return response
 
 from openai_api import chain as openai_api_chain
 
-add_routes(app, openai_api_chain, path="/openai-api")
+# add_routes(app, openai_api_chain, path="/openai-api")
 
+openai_api_handler = APIHandler(openai_api_chain, path="/openai-api")
+@app.post("/openai-api/invoke", include_in_schema=True)
+async def protected_route_openai(token: str = Depends(validate_token), request: Request = None):
+    """
+    Route protected by token validation.
+    """
+    response = await invoke_api(openai_api_chain, "/openai-api", request)
+    return response
+
+
+async def invoke_api(api_chain, path: str, request: Request) -> Response:
+    """
+    Handle a request for the specified API.
+    """
+    api_handler = APIHandler(api_chain, path=path)
+    return await api_handler.invoke(request)
 
 if __name__ == "__main__":
     import uvicorn

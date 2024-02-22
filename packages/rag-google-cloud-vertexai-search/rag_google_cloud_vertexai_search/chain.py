@@ -8,8 +8,12 @@ from langchain_core.pydantic_v1 import BaseModel
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
+# from langsmith import Client
+
 
 load_dotenv
+
+# client = Client()
 # Get project, data store, and model type from env variables
 # project_id = os.environ.get("GOOGLE_CLOUD_PROJECT_ID")
 # data_store_id = os.environ.get("DATA_STORE_ID")
