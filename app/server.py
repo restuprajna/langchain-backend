@@ -57,13 +57,13 @@ async def protected_route(token: str = Depends(validate_token)):
 from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_search_chain
 
 # add_routes(app, rag_google_cloud_vertexai_search_chain, path="/rag-google-cloud-vertexai-search")
-vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/rag-google-cloud-vertexai-search")
-@app.post("/rag-google-cloud-vertexai-search/invoke", include_in_schema=True)
+vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/vertex-ai")
+@app.post("/vertex-ai/invoke", include_in_schema=True)
 async def protected_route_vertex(token: str = Depends(validate_token), request: Request = None):
     """
     Route protected by token validation.
     """
-    response = await invoke_api(rag_google_cloud_vertexai_search_chain, "/rag-google-cloud-vertexai-search", request)
+    response = await invoke_api(rag_google_cloud_vertexai_search_chain, "/vertex-ai", request)
     return response
 
 from openai_api import chain as openai_api_chain
