@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi import Depends, Request, APIRouter
 from fastapi.responses import RedirectResponse
 from langserve import add_routes
 from dotenv import load_dotenv
@@ -34,7 +35,8 @@ async def validate_token(token: str = Depends(bearer)):
 #     return os.getenv("OPENAI_API_KEY")
 
 import sys
-sys.path.append("/Users/restuprajna/Developer/langchain-app/vertex-ai/my-app/packages/openai-api")
+sys.path.append("../packages")
+
 
 # @app.get("/")
 # async def redirect_root_to_docs():
@@ -58,27 +60,27 @@ from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_
 
 # add_routes(app, rag_google_cloud_vertexai_search_chain, path="/rag-google-cloud-vertexai-search")
 vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/vertex-ai")
-@app.post("/vertex-ai/invoke", include_in_schema=True)
-async def protected_route_vertex(token: str = Depends(validate_token), request: Request = None):
+@app.post("/vertex-ai/invoke/{instance_id}", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
     """
     Route protected by token validation.
     """
-    response = await invoke_api(rag_google_cloud_vertexai_search_chain, "/vertex-ai", request)
+    path = f"/vertex-ai/invoke/{instance_id}"
+    response = await invoke_api(rag_google_cloud_vertexai_search_chain, path, request)
     return response
 
 from openai_api import chain as openai_api_chain
 
 # add_routes(app, openai_api_chain, path="/openai-api")
 
-openai_api_handler = APIHandler(openai_api_chain, path="/openai-api")
-@app.post("/openai-api/invoke", include_in_schema=True)
-async def protected_route_openai(token: str = Depends(validate_token), request: Request = None):
+@app.post("/openai-api/invoke/{instance_id}", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
     """
     Route protected by token validation.
     """
-    response = await invoke_api(openai_api_chain, "/openai-api", request)
+    path = f"/openai-api/invoke/{instance_id}"
+    response = await invoke_api(openai_api_chain, path, request)
     return response
-
 
 async def invoke_api(api_chain, path: str, request: Request) -> Response:
     """
@@ -86,6 +88,7 @@ async def invoke_api(api_chain, path: str, request: Request) -> Response:
     """
     api_handler = APIHandler(api_chain, path=path)
     return await api_handler.invoke(request)
+
 
 if __name__ == "__main__":
     import uvicorn
