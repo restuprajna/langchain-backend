@@ -5,5 +5,3 @@ google-cloud-discoveryengine
 langchain-community
 langchain_google_genai
 langchain-openai
--e ./packages/rag-google-cloud-vertexai-search
--e ./packages/openai-api
