@@ -22,7 +22,7 @@ bearer = HTTPBearer()
 
 async def validate_token(token: str = Depends(bearer)):
     # Retrieve the expected API key from the environment variable
-    expected_api_key = os.getenv("OPENAI_API_KEY")
+    expected_api_key = os.getenv("THIS_IS_AI_API_TOKEN")
     # print(token)
     # print(expected_api_key)
     # Validate the Bearer Token
