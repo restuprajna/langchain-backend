@@ -8,6 +8,7 @@ from langchain_core.pydantic_v1 import BaseModel
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
+from google.generativeai.types.safety_types import HarmBlockThreshold, HarmCategory
 # from langsmith import Client
 
 
@@ -56,12 +57,18 @@ load_dotenv
 #     | llm
 #     | StrOutputParser()
 # )
-
+safety_settings_NONE = {
+        HarmCategory.HARM_CATEGORY_UNSPECIFIED: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+        HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+    }
 
 google_api: str = os.environ["GOOGLE_API_KEY"]
 vertex_model: str = os.environ["vertex_model"]
 
-llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api)
+llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safety_settings=safety_settings_NONE)
 
 
 
