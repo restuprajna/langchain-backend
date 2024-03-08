@@ -108,7 +108,8 @@ ANSWER_PROMPT = ChatPromptTemplate.from_template(
 
     USE curly braces at the beginning and end of your answer. jika terdapat lebih dari satu topik, gunakan tanda koma untuk memisahkan topik. dan tiap topik dibungkus dengan tanda petik. seperti berikut "topik 1", "topik 2", "topik 3"
 
-    hanya hasilkan topik berupa raw string
+    hanya hasilkan topik berupa raw string, tidak perlu menggnunakan escpae character seperti \n atau yang lainnya.
+
 
     berikut adalah soalnya
     Soal: "{task}"
