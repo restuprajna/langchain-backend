@@ -57,13 +57,17 @@ load_dotenv
 #     | llm
 #     | StrOutputParser()
 # )
-safety_settings_NONE = {
-        HarmCategory.HARM_CATEGORY_UNSPECIFIED: HarmBlockThreshold.BLOCK_NONE,
-        HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-        HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-    }
+safety_settings_NONE=safety_settings = {
+    # HarmCategory.HARM_CATEGORY_UNSPECIFIED: HarmBlockThreshold.BLOCK_NONE, 
+    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, 
+    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE, 
+    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE, 
+    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+    # HarmCategory.HARM_CATEGORY_RUDE_OR_ABUSIVE: HarmBlockThreshold.BLOCK_NONE, 
+    # HarmCategory.HARM_CATEGORY_PROFANITY: HarmBlockThreshold.BLOCK_NONE, 
+    # HarmCategory.HARM_CATEGORY_ALCOHOL_TOBACCO_DRUGS: HarmBlockThreshold.BLOCK_NONE, 
+    # HarmCategory.HARM_CATEGORY_OTHER: HarmBlockThreshold.BLOCK_NONE
+}
 
 google_api: str = os.environ["GOOGLE_API_KEY"]
 vertex_model: str = os.environ["vertex_model"]
@@ -108,8 +112,7 @@ ANSWER_PROMPT = ChatPromptTemplate.from_template(
 
     USE curly braces at the beginning and end of your answer. jika terdapat lebih dari satu topik, gunakan tanda koma untuk memisahkan topik. dan tiap topik dibungkus dengan tanda petik. seperti berikut "topik 1", "topik 2", "topik 3"
 
-    hanya hasilkan topik berupa raw string, tidak perlu menggnunakan escpae character seperti \n atau yang lainnya.
-
+    hanya hasilkan topik berupa raw string
 
     berikut adalah soalnya
     Soal: "{task}"
