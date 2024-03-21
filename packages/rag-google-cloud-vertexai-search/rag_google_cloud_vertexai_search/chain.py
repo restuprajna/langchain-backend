@@ -83,7 +83,7 @@ respon hanya berupa soal dalam bentuk json dengan struktur:
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. Soal dibuat beserta pembahasan dari masing masing opsi mengapa opsi mendapat score tersebut
 
-pada explanation dibuat lengkap penjelasan untuk tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah, dan jangan hanya menampilkan indikator nya saja, namun sertakan juga isi dari option tersebut
+pada explanation dibuat lengkap penjelasan untuk tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah, dan jangan hanya menampilkan optionnya saja, namun sertakan juga answer dari option tersebut
 
 JANGAN merespon apapun selain soal dengan struktur JSON 
 
