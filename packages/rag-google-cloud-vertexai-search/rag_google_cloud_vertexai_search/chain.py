@@ -191,7 +191,7 @@ chain = (
 
 retry_parser = RetryOutputParser.from_llm(
     llm=llm, 
-    prompt=prompt
+    prompt=prompt,
     parser=parser, 
     max_retries=3
 )
