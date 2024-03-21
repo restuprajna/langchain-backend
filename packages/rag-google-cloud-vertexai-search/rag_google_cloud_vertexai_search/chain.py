@@ -117,7 +117,7 @@ Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu 
 
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
--{answers}[option (A-E), answer, order (1-5) , score (0 or 5), is_true(true or false)],
+-{answers}[option (A-E), answer(content of the option), order (1-5) , score (0 or 5), is_true(true or false)],
 -{explanation}
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. Soal dibuat beserta pembahasan dari masing masing opsi mengapa opsi mendapat score tersebut
@@ -143,7 +143,7 @@ class Question(BaseModel):
 
 parser = PydanticOutputParser(pydantic_object=Question)
 
-retry_parser = RetryOutputParser.from_llm(parser=parser, llm=llm)
+# retry_parser = RetryOutputParser.from_llm(parser=parser, llm=llm)
 # retry_parser.parse_with_prompt(bad_response, prompt_value)
 # response_schemas = [
 #     ResponseSchema(
@@ -174,14 +174,14 @@ prompt = PromptTemplate(
 #     | parser
 # )
 chain = (
-    # {"task": RunnablePassthrough()} |
+    {"task": RunnablePassthrough()} |
     prompt | llm | parser
 )
 
-main_chain = RunnableParallel(
-    completion=chain,
-    prompt_value=prompt
-) | RunnableLambda(lambda x: retry_parser.parse_with_prompt(**x))
+# main_chain = RunnableParallel(
+#     completion=chain,
+#     prompt_value=prompt
+# ) | RunnableLambda(lambda x: retry_parser.parse_with_prompt(**x))
 
 # ans = chain.invoke(user_prompt)
 
@@ -194,5 +194,5 @@ class InputPrompt(BaseModel):
     # metadata: str
 
 
-chain = main_chain.with_types(input_type=InputPrompt)
+chain = chain.with_types(input_type=InputPrompt)
 
