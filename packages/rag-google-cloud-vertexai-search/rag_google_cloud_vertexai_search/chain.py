@@ -189,12 +189,11 @@ chain = (
 
 # ans = chain.invoke(user_prompt)
 
-retry_parser = RetryOutputParser.from_llm(
-    llm=llm, 
-    prompt=prompt,
-    parser=parser, 
-    max_retries=3
-)
+# retry_parser = RetryOutputParser.from_llm(
+#     llm=chain.llm, 
+#     parser=parser, 
+#     max_retries=3
+# )
 
 # Add typing for input
 class InputPrompt(BaseModel):
@@ -202,5 +201,6 @@ class InputPrompt(BaseModel):
     # input:InputPrompt
     # metadata: str
 
-chain = retry_parser.with_types(input_type=InputPrompt)
+
+chain = chain.with_types(input_type=InputPrompt)
 
