@@ -5,14 +5,15 @@ from langchain_community.retrievers import GoogleVertexAISearchRetriever
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.output_parsers import (
     OutputFixingParser,
     PydanticOutputParser,
     RetryOutputParser,
     ResponseSchema,
-    StructuredOutputParser
+    StructuredOutputParser,
+    RetryOutputParser
 )
 from dotenv import load_dotenv
 # from langsmith import Client
@@ -142,6 +143,8 @@ class Question(BaseModel):
 
 parser = PydanticOutputParser(pydantic_object=Question)
 
+retry_parser = RetryOutputParser.from_llm(parser=parser, llm=llm)
+# retry_parser.parse_with_prompt(bad_response, prompt_value)
 # response_schemas = [
 #     ResponseSchema(
 #         name="question", 
@@ -170,18 +173,17 @@ prompt = PromptTemplate(
 #     | llm
 #     | parser
 # )
-chain =(
-    {"task": RunnablePassthrough()}
-    | prompt
-    | llm
-    | parser
+chain = (
+    # {"task": RunnablePassthrough()} |
+    prompt | llm | parser
 )
 
-
+main_chain = RunnableParallel(
+    completion=chain,
+    prompt_value=prompt
+) | RunnableLambda(lambda x: retry_parser.parse_with_prompt(**x))
 
 # ans = chain.invoke(user_prompt)
-
-
 
 
 
@@ -192,5 +194,5 @@ class InputPrompt(BaseModel):
     # metadata: str
 
 
-chain = chain.with_types(input_type=InputPrompt)
+chain = main_chain.with_types(input_type=InputPrompt)
 
