@@ -120,7 +120,7 @@ respon hanya berupa soal dalam bentuk json dengan struktur:
 
 -{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (if the option is correct the score is 5, if the option is wrong the score is 0), is_true(true or false)],
 
--{explanation} (tampilkan indikator soal dan konteks string soal lalu jelaskan tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah)
+-{explanation} (tampilkan indikator soal dan isi jawaban/answer soal tersebut lalu jelaskan tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah)
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
