@@ -58,6 +58,7 @@ async def protected_route(token: str = Depends(validate_token)):
 # Edit this to add the chain you want to add
 from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_search_chain
 from openai_api import chain as openai_api_chain
+from vertex_tkp_chain import chain as vertex_tkp_chain
 
 # add_routes(app, rag_google_cloud_vertexai_search_chain, path="/rag-google-cloud-vertexai-search")
 vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/vertex-ai")
@@ -77,6 +78,15 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     """
     path = f"/vertex-ai/{instance_id}/batch"
     response = await batch_api(rag_google_cloud_vertexai_search_chain, path, request)
+    return response
+
+@app.post("/vertex-ai/{instance_id}/soal-tkp/batch", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+    """
+    Route protected by token validation.
+    """
+    path = f"/vertex-ai/{instance_id}/soal-tkp/batch"
+    response = await batch_api(vertex_tkp_chain, path, request)
     return response
 
 

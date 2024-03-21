@@ -67,10 +67,15 @@ load_dotenv
 # )
 
 safety_settings_NONE=safety_settings = {
+    # HarmCategory.HARM_CATEGORY_UNSPECIFIED: HarmBlockThreshold.BLOCK_NONE, 
     HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, 
     HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE, 
     HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE, 
     HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+    # HarmCategory.HARM_CATEGORY_RUDE_OR_ABUSIVE: HarmBlockThreshold.BLOCK_NONE, 
+    # HarmCategory.HARM_CATEGORY_PROFANITY: HarmBlockThreshold.BLOCK_NONE, 
+    # HarmCategory.HARM_CATEGORY_ALCOHOL_TOBACCO_DRUGS: HarmBlockThreshold.BLOCK_NONE, 
+    # HarmCategory.HARM_CATEGORY_OTHER: HarmBlockThreshold.BLOCK_NONE
 }
 
 google_api: str = os.environ["GOOGLE_API_KEY"]
@@ -112,7 +117,7 @@ llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safe
 # )
 
 template = (
-     """selalu ikuti instruksi berikut: kamu adalah seorang penguji dalam ujian Seleksi Kompetensi Bidang (SKB). Kamu bertugas untuk membuat soal SKB sesuai dengan kompetensi bidang masing-masing jabatan yang dipilih oleh calon ASN atau CPNS dalam seleksi akhir penerimaan Pegawai Negeri Sipil, dimana kamu hanya membuat soal, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal, soal yang dibuat berdasarkan pada level bloom taksonomi yang diminta. 
+     """selalu ikuti instruksi berikut: Anda adalah psikolog tugasmu hanya membuat soal untuk menilai karakter seseorang, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal. 
 
 kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
 
@@ -122,10 +127,12 @@ saya sudah tambahkan file yang berisi kata kunci kognitif pada setiap level taks
 
 Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks.
 
+jawaban di desain tanpa ada jawaban yang salah namun berikan skor dalam rentan 1 sampai 5, dan skor harus berbeda pada tiap opsi
+
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
 
--{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (if the option is correct the score is 5, if the option is wrong the score is 0), is_true(true or false)],
+-{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (), 5 tiap opsi harus berbeda score), is_true(true untuk opsi dengan or false)],
 
 -{explanation} (tampilkan indikator soal dan isi jawaban/answer soal tersebut lalu jelaskan tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah)
 
@@ -141,6 +148,14 @@ dari instruksi tersebut lakukan task berikut
     Answer:
     """
 )
+
+# template = (
+#     """cari kata dasar dalam kalimat berikut:
+    
+#     Task: "{task}"
+#     Answer:
+# """
+# )
 
 
 
