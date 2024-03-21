@@ -117,7 +117,9 @@ Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu 
 
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
--{answers}[option (A-E), answer(content of the option), order (1-5) , score (0 or 5), is_true(true or false)],
+
+-{answers}[option (contain only label with format from A-E), answer(answer choices), order (1-5) , score (if the option is correct the score is 5, if the option is wrong the score is 0), is_true(true or false)],
+
 -{explanation}
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. Soal dibuat beserta pembahasan dari masing masing opsi mengapa opsi mendapat score tersebut
