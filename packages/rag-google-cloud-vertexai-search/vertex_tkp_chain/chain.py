@@ -132,7 +132,7 @@ opsi di desain tanpa ada jawaban yang salah namun berikan score dalam rentang 1 
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
 
--{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5, dengan tiap opsi harus memiliki niali yang berbeda/unique), is_true(true untuk opsi dengan or false)],
+-{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5, dan ingatlah tiap opsi harus memiliki niali yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
 
 -{explanation} (Berisikan penjelasan pada tiap option mengapa opsi tersebut benar atau mengapa opsi tersebut kurang benar, tiap sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: Indikator soal dan kunci jawaban lalu (option tersebut benar atau kurang benar) lalu alasanya mengapa)
 
