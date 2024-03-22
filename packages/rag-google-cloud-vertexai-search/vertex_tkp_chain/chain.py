@@ -161,11 +161,11 @@ dari instruksi tersebut lakukan task berikut
 
 
 class Question(BaseModel):
-    question: str = Field(description="the question to answer")
+    question: str = Field(description="pertanyaan yang berkualitas berdasarkan task yang diminta")
     answers: list = Field(
-        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5 dan pastikan bahwa tiap score pada tiap opsi memiliki nilai yang berbeda/unique), is_true(true untuk opsi dengan or false)]")
+        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5 dan yang paling penting pastikan bahwa tiap opsi harus memiliki score nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi yang benar atau false untuk opsi yang salah)]")
     explanation: str = Field(
-        description="berisikan penjelasan pada tiap option mengapa opsi tersebut benar dan mengapa opsi tersebut salah, tiap sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: option.answer (salah atau benar) mengapa")
+        description="Berisikan penjelasan pada tiap option mengapa opsi tersebut benar atau mengapa opsi tersebut kurang benar, tiap sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: option dan isinya lalu (option tersebut benar atau kurang benar) lalu alasanya mengapa")
 
 
 parser = PydanticOutputParser(pydantic_object=Question)
