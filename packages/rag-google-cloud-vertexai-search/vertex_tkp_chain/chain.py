@@ -129,11 +129,10 @@ Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu 
 
 opsi di desain tanpa ada jawaban yang salah namun berikan score dalam rentang 1 sampai 5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
-
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
 
--{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5 dengan tiap opsi harus memiliki niali yang berbeda/unique), is_true(true untuk opsi dengan or false)],
+-{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5, dengan tiap opsi harus memiliki niali yang berbeda/unique), is_true(true untuk opsi dengan or false)],
 
 -{explanation} (tampilkan indikator soal dan isi jawaban/answer soal tersebut lalu jelaskan tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah)
 
