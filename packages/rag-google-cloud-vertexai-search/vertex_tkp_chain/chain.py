@@ -127,7 +127,7 @@ saya sudah tambahkan file yang berisi kata kunci kognitif pada setiap level taks
 
 Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks.
 
-opsi di desain tanpa ada jawaban yang salah namun berikan score dalam rentang nilai terendah 1 dan nilai tertinggi 5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
+option di desain tanpa ada jawaban yang salah namun berikan score dalam yang berbeda satu sama lainnya dengan rentang nilai terendah 1 dan nilai tertinggi 5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
