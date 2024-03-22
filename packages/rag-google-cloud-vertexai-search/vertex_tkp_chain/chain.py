@@ -132,7 +132,7 @@ jawaban di desain tanpa ada jawaban yang salah namun berikan skor dalam rentan 1
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
 
--{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (), 5 tiap opsi harus berbeda score), is_true(true untuk opsi dengan or false)],
+-{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilain score tiap opsi dari rentang 1 sampai 5 dengan tiap opsi harus memiliki niali yang berbeda), is_true(true untuk opsi dengan or false)],
 
 -{explanation} (tampilkan indikator soal dan isi jawaban/answer soal tersebut lalu jelaskan tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah)
 
@@ -161,8 +161,10 @@ dari instruksi tersebut lakukan task berikut
 
 class Question(BaseModel):
     question: str = Field(description="the question to answer")
-    answers: list = Field(description="option to choose")
-    explanation: str = Field(description="explanation of the answer")
+    answers: list = Field(
+        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilain score tiap opsi dari rentang 1 sampai 5 dengan tiap opsi harus memiliki niali yang berbeda), is_true(true untuk opsi dengan or false)]")
+    explanation: str = Field(
+        description="berisikan penjelasan pada tiap option mengapa opsi tersebut benar dan mengapa opsi tersebut salah, tiap sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud")
 
 
 parser = PydanticOutputParser(pydantic_object=Question)
