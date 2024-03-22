@@ -127,12 +127,13 @@ saya sudah tambahkan file yang berisi kata kunci kognitif pada setiap level taks
 
 Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks.
 
-jawaban di desain tanpa ada jawaban yang salah namun berikan skor dalam rentan 1 sampai 5, dan skor harus berbeda pada tiap opsi
+opsi di desain tanpa ada jawaban yang salah namun berikan score dalam rentang 1 sampai 5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
+
 
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
 
--{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilain score tiap opsi dari rentang 1 sampai 5 dengan tiap opsi harus memiliki niali yang berbeda), is_true(true untuk opsi dengan or false)],
+-{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5 dengan tiap opsi harus memiliki niali yang berbeda/unique), is_true(true untuk opsi dengan or false)],
 
 -{explanation} (tampilkan indikator soal dan isi jawaban/answer soal tersebut lalu jelaskan tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah)
 
@@ -162,7 +163,7 @@ dari instruksi tersebut lakukan task berikut
 class Question(BaseModel):
     question: str = Field(description="the question to answer")
     answers: list = Field(
-        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilain score tiap opsi dari rentang 1 sampai 5 dan pastikan bahwa tiap score pada opsi memiliki nilai yang berbeda/unique), is_true(true untuk opsi dengan or false)]")
+        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5 dan pastikan bahwa tiap score pada tiap opsi memiliki nilai yang berbeda/unique), is_true(true untuk opsi dengan or false)]")
     explanation: str = Field(
         description="berisikan penjelasan pada tiap option mengapa opsi tersebut benar dan mengapa opsi tersebut salah, tiap sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: option.answer (salah atau benar) mengapa")
 
