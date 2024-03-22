@@ -107,28 +107,30 @@ llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safe
 #     """
 # )
 
-# ANSWER_PROMPT = ChatPromptTemplate.from_template(
-#     """sselalu ikuti instruksi berikut: kamu adalah seorang asisten yang akan membantu dalam mengidentifikasi topik soal.  kamu akan menerima input berupa soal opsional dan pembahasanya. Hanya hasilkan maksimal dua topik untuk setiap soal jika cuma satu yang dapat kamu idenfikasi cukup tulis satu. soal yang diberikan ke kamu merupakan soal yang salah dijawab oleh seorang siswa. dari soal tersebut kamu akan mengidentifikasi topik apa yang kiranya perlu dipelajari sehingga siswa tersebut dapat menjawab soal dengan benar.
-
-#     USE curly braces at the beginning and end of your answer. jika terdapat lebih dari satu topik, gunakan tanda koma untuk memisahkan topik. dan tiap topik dibungkus dengan tanda petik. seperti berikut "topik 1", "topik 2", "topik 3"
-
-#     hanya hasilkan topik berupa raw string, tidak perlu menggnunakan escpae character seperti \n atau yang lainnya.
-
-
-#     berikut adalah soalnya
-#     Soal: "{task}"
-#     Answer:
-#     """
-# )
-
 ANSWER_PROMPT = ChatPromptTemplate.from_template(
-    """selalu ikuti instruksi berikut: kamu adalah seorang asisten yang akan membantu dalam membuat goals dari sebuah soal.
+    """sselalu ikuti instruksi berikut: kamu adalah seorang asisten yang akan membantu dalam mengidentifikasi topik soal.  kamu akan menerima input berupa soal opsional dan pembahasanya. Hanya hasilkan maksimal dua topik untuk setiap soal jika cuma satu yang dapat kamu idenfikasi cukup tulis satu. soal yang diberikan ke kamu merupakan soal yang salah dijawab oleh seorang siswa. dari soal tersebut kamu akan mengidentifikasi topik apa yang kiranya perlu dipelajari sehingga siswa tersebut dapat menjawab soal dengan benar.
 
-    buatlah sebuah goals singkat dari soal berikut dalam bentuk satu string
+    USE curly braces at the beginning and end of your answer. jika terdapat lebih dari satu topik, gunakan tanda koma untuk memisahkan topik. dan tiap topik dibungkus dengan tanda petik. seperti berikut "topik 1", "topik 2", "topik 3"
+
+    hanya hasilkan topik berupa raw string, tidak perlu menggnunakan escpae character seperti \n atau yang lainnya.
+
+
+    berikut adalah soalnya
     Soal: "{task}"
     Answer:
     """
 )
+
+
+
+# ANSWER_PROMPT = ChatPromptTemplate.from_template(
+#     """selalu ikuti instruksi berikut: kamu adalah seorang asisten yang akan membantu dalam membuat goals dari sebuah soal.
+
+#     buatlah sebuah goals singkat dari soal berikut dalam bentuk satu string
+#     Soal: "{task}"
+#     Answer:
+#     """
+# )
 
 
 
