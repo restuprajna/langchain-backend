@@ -117,7 +117,7 @@ llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safe
 # )
 
 template = (
-     """selalu ikuti instruksi berikut: Anda adalah psikolog tugasmu hanya membuat soal untuk menilai karakter seseorang, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal. 
+    """selalu ikuti instruksi berikut: Anda adalah psikolog tugasmu hanya membuat soal untuk menilai karakter seseorang, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal. 
 
 kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
 
@@ -162,9 +162,9 @@ dari instruksi tersebut lakukan task berikut
 class Question(BaseModel):
     question: str = Field(description="the question to answer")
     answers: list = Field(
-        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilain score tiap opsi dari rentang 1 sampai 5 dengan tiap opsi harus memiliki niali yang berbeda), is_true(true untuk opsi dengan or false)]")
+        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilain score tiap opsi dari rentang 1 sampai 5 dan pastikan bahwa tiap score pada opsi memiliki nilai yang berbeda/unique), is_true(true untuk opsi dengan or false)]")
     explanation: str = Field(
-        description="berisikan penjelasan pada tiap option mengapa opsi tersebut benar dan mengapa opsi tersebut salah, tiap sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: opsi.answer (salah atau benar) mengapa")
+        description="berisikan penjelasan pada tiap option mengapa opsi tersebut benar dan mengapa opsi tersebut salah, tiap sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: option.answer (salah atau benar) mengapa")
 
 
 parser = PydanticOutputParser(pydantic_object=Question)
