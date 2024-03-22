@@ -127,7 +127,7 @@ respon hanya berupa soal dalam bentuk json dengan struktur:
 
 -{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (if the option is correct the score is 5, if the option is wrong the score is 0), is_true(true or false)],
 
--{explanation} (Berisikan penjelasan untuk setiap option, jelaskan secara detail pada tiap option mengapa opsi tersebut benar atau mengapa opsi tersebut kurang benar, sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: option dan isinya lalu (option tersebut benar atau kurang benar) lalu alasanya mengapa)
+-{explanation} (Berisikan penjelasan untuk setiap option, jelaskan secara detail pada tiap option mengapa opsi tersebut benar atau mengapa opsi tersebut kurang benar, sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: Indikator soal dan kunci jawaban lalu (option tersebut benar atau kurang benar) lalu alasanya mengapa)
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
@@ -150,7 +150,7 @@ class Question(BaseModel):
     answers: list = Field(
         description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (if the option is correct the score is 5, if the option is wrong the score is 0, only one option is correct), is_true(true or false)]")
     explanation: str = Field(
-        description="Berisikan penjelasan untuk setiap option, jelaskan secara detail pada tiap option mengapa opsi tersebut benar atau mengapa opsi tersebut kurang benar, sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: option dan isinya lalu (option tersebut benar atau kurang benar) lalu alasanya mengapa")
+        description="Berisikan penjelasan untuk setiap option, jelaskan secara detail pada tiap option mengapa opsi tersebut benar atau mengapa opsi tersebut kurang benar, sebelum menulis penjelaskan tulis ulang dulu opsi beserta answer yang dimaksud seperti format berikut: Indikator soal dan kunci jawaban lalu (option tersebut benar atau kurang benar) lalu alasanya mengapa")
 
 
 parser = PydanticOutputParser(pydantic_object=Question)
