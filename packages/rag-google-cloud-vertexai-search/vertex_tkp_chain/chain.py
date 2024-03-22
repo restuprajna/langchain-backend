@@ -127,14 +127,14 @@ saya sudah tambahkan file yang berisi kata kunci kognitif pada setiap level taks
 
 Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks.
 
-opsi di desain tanpa ada jawaban yang salah namun berikan score dalam rentang 1 sampai 5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
+opsi di desain tanpa ada jawaban yang salah namun berikan score dalam rentang nilai terendah 1 dan nilai tertinggi 5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
 respon hanya berupa soal dalam bentuk json dengan struktur:  
 -{question}, 
 
--{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5, dan ingatlah tiap opsi harus memiliki niali yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
+-{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki niali yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
 
--{explanation} (Berisikan penjelasan untuk setiap option, jelaskan secara detail pada tiap option mengapa opsi tersebut benar atau mengapa opsi tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) lalu (score-nya) lalu pembahasan mengapa soal tersebut benar, lalu dilanjutkan pembahasan opsition lain (dengan scorenya masing-masing) dan mengapa opsi tersebut mendapat score yang demikian)
+-{explanation} (Dari struktur answers(option,answer, order, score, is_true) berikan penjelasan untuk setiap option, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada opsi yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) lalu dengan score(score-nya) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan pembahasan tiap answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) lalu dengan score(scorenya) dan mengapa answer tersebut mendapat score yang demikian)
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
@@ -162,9 +162,9 @@ dari instruksi tersebut lakukan task berikut
 class Question(BaseModel):
     question: str = Field(description="pertanyaan yang berkualitas berdasarkan task yang diminta")
     answers: list = Field(
-        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang 1 sampai 5 dan yang paling penting pastikan bahwa tiap opsi harus memiliki score nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi yang benar atau false untuk opsi yang salah)]")
+        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score dari opsi dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki niali yang berbeda/unique satu sama lainnya), is_true(true untuk opsi yang benar atau false untuk opsi yang salah)]")
     explanation: str = Field(
-        description="Berisikan penjelasan untuk setiap option, jelaskan secara detail pada tiap option mengapa opsi tersebut benar atau mengapa opsi tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) lalu (score-nya) lalu pembahasan mengapa soal tersebut benar, lalu dilanjutkan pembahasan opsition lain (dengan scorenya masing-masing) dan mengapa opsi tersebut mendapat score yang demikian")
+        description="Dari struktur answers(option,answer, order, score, is_true) berikan penjelasan untuk setiap option, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada opsi yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) lalu dengan score(score-nya) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan pembahasan tiap answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) lalu dengan score(scorenya) dan mengapa answer tersebut mendapat score yang demikian")
 
 
 parser = PydanticOutputParser(pydantic_object=Question)
