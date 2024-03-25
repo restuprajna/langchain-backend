@@ -165,7 +165,7 @@ class Question(BaseModel):
     answers: list = Field(
         description="list yang berisikan option-opsi jawaban yang harus sesuai kriteria yang diminta")
     explanation: str = Field(
-        description="deskripsi jawaban yang harus sesuai kriteria yang diminta, ALWAYS USE HTML TAG FOR FORMATTING")
+        description="deskripsi jawaban yang harus sesuai kriteria yang diminta tanpa menggunakan abjad optionnya, ALWAYS USE HTML TAG FOR FORMATTING")
 
 
 parser = PydanticOutputParser(pydantic_object=Question)
