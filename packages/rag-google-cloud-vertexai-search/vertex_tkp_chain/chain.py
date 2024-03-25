@@ -139,7 +139,7 @@ respon hanya berupa soal dalam bentuk json dengan struktur:
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
 JANGAN merespon apapun selain soal berupa JSON 
-
+USE HTML TAG FOR FORMATTING
 
 dari instruksi tersebut lakukan task berikut
 
