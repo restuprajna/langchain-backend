@@ -129,17 +129,17 @@ Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu 
 
 option di desain tanpa ada jawaban yang salah namun berikan score dalam yang harus berbeda/unique pada satu opsi deengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
-respon hanya berupa soal dalam bentuk json dengan struktur:  
+pastikan respon yang dibuat harus selalu mengikuti kriteria dan struktur sebagai berikut:  
 -{question} (susunlah soal dengan cara berikut:  pertama, buatlah scenario atau sebuah cerita dengan panjang minimal dua kalimat silahkan buat cerita yang sekreatif mungkin ,kedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut)
 
 -{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score yang harus berbeda/unique pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
 
--{explanation} (Dari struktur answers[option,answer, order, score, is_true] berikan penjelasan untuk setiap answer, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada answer yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(score-nya) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan dengan format : Jawaban yang salah: berisikan pembahasan masing-masing answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(scorenya) dan mengapa answer tersebut mendapat score yang demikian. ALWAYS USE HTML TAG FOR FORMATTING)
+-{explanation} (Dari struktur answers[option,answer, order, score, is_true] berikan penjelasan untuk setiap answer, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada answer yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(score-nya) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan dengan format : Jawaban yang salah: berisikan pembahasan masing-masing answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(scorenya) dan mengapa answer tersebut mendapat score yang demikian. Jangan gunakan formatting lain selain HTML)
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
 JANGAN merespon apapun selain soal berupa JSON 
-USE HTML TAG FOR FORMATTING
+ALWAYS USE HTML TAG FOR FORMATTING
 
 dari instruksi tersebut lakukan task berikut
 
@@ -161,11 +161,11 @@ dari instruksi tersebut lakukan task berikut
 
 class Question(BaseModel):
     question: str = Field(
-        description="(susunlah soal dengan cara berikut:  pertama, buatlah scenario atau sebuah cerita dengan panjang minimal dua kalimat silahkan buat cerita yang sekreatif mungkin ,kedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut")
+        description="berisi pertanyaan yang harus sesuai kriteria yang diminta")
     answers: list = Field(
-        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (bberisikan nilai score yang harus berbeda/unique pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)]")
+        description="list yang berisikan option-opsi jawaban yang harus sesuai kriteria yang diminta")
     explanation: str = Field(
-        description="Dari struktur answers[option,answer, order, score, is_true] berikan penjelasan untuk setiap answer, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada answer yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(score-nya) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan dengan format : Jawaban yang salah: berisikan pembahasan masing-masing answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(scorenya) dan mengapa answer tersebut mendapat score yang demikian. ALWAYS USE HTML TAG FOR FORMATTING")
+        description="deskripsi jawaban yang harus sesuai kriteria yang diminta, ALWAYS USE HTML TAG FOR FORMATTING")
 
 
 parser = PydanticOutputParser(pydantic_object=Question)
