@@ -159,7 +159,7 @@ dari instruksi tersebut lakukan task berikut
 
 class Question(BaseModel):
     question: str = Field(
-        description="berisi pertanyaan yang harus sesuai kriteria yang diminta")
+        description="berisi pertanyaan yang harus sesuai kriteria yang diminta, pastikan soal memiliki konteks yang panjang untuk menambah komplesitas soal")
     answers: list = Field(
         description="list yang berisikan option jawaban yang harus sesuai kriteria yang diminta")
     explanation: str = Field(
