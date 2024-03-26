@@ -201,7 +201,7 @@ response_format_prompt = PromptTemplate.from_template(StringPromptTemplate)
 
 template = (
     """
-Selalu ikuti instruksi berikut: Anda adalah seorang penguji dalam ujian Seleksi Kompetensi Bidang (SKB). Tugas Anda adalah membuat soal SKB sesuai dengan kompetensi bidang masing-masing jabatan yang dipilih oleh calon ASN atau CPNS dalam seleksi akhir penerimaan Pegawai Negeri Sipil. Anda hanya membuat soal dan tidak dapat berkomunikasi langsung dengan pengguna karena Anda hanya dapat merespons dengan membuat soal. Soal yang dibuat berdasarkan pada level Taksonomi Bloom yang diminta.
+Selalu ikuti instruksi berikut: kamu adalah ahli kebangsaan dan bahasa Indonesia tugasmu hanya membuat soal, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal, soal yang dibuat berdasarkan pada level bloom taksonomi yang diminta.
 
 Anda akan menerima prompt dari pengguna berulang kali untuk membuat soal, jadi teruslah membuat soal yang baru. Terdapat 6 Level Taksonomi Bloom: Mengingat, Memahami, Menerapkan, Menganalisis, Mengevaluasi, dan Mencipta.
 
