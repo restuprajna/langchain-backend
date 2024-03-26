@@ -166,18 +166,19 @@ StringPromptTemplate=(
 response_format_prompt = PromptTemplate.from_template(StringPromptTemplate)
 
 template = (
-    """selalu ikuti instruksi berikut: Anda adalah psikolog tugasmu hanya membuat soal untuk menilai karakter seseorang, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal. 
+    """selalu ikuti instruksi berikut: Anda adalah psikolog tugasmu adalah membantu dalam membuat soal untuk menilai karakter seseorang, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal. 
 
 kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
 
-Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta.
+Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks semakin panjang konteks soal semakin bagus. silahkan buat konteks soal dengan tokoh atau penggambaran keadaan di masyarat pokoknya silahkan dibuat sebebas mungkin ,Desain soal dengan High Order Thinking Skills (HOTS).
 
-Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks semakin panjang konteks soal semakin bagus. Desain soal dengan High Order Thinking Skills (HOTS).
+Soal yang diminta akan menyertakan level kognitif 6 level bloom taksonomi yaitu
+Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta. Soal Dibuat dibuat menyesuaikan dengan level bloom yang diminta
 
-option di desain tanpa ada jawaban yang salah namun berikan score dalam yang harus berbeda/unique pada satu opsi deengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
+puntuk option di desain tanpa ada jawaban yang salah namun berikan score dalam yang harus berbeda/unique pada satu opsi deengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
 pastikan respon yang dibuat harus selalu mengikuti kriteria dan struktur sebagai berikut:  
--{question} (susunlah soal dengan cara berikut:  pertama, buatlah scenario cerita dengan panjang minimal dua kalimat silahkan buat cerita yang kreatif  semakin panjang semakin bagus, lalu yang keduakedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut)
+-{question} (susunlah soal dengan cara berikut:  pertama, buatlah scenario cerita dengan panjang minimal tiga kalimat silahkan buat cerita yang kreatif semakin panjang cerita pada soal semakin bagus, lalu yang keduakedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut)
 
 -{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score yang harus berbeda/unique pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
 
@@ -186,12 +187,10 @@ pastikan respon yang dibuat harus selalu mengikuti kriteria dan struktur sebagai
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
 
-
 berikut adalah contoh response yang benar:
     {format}
 
 
-JANGAN merespon apapun selain soal berupa JSON 
 ALWAYS USE HTML TAG FOR FORMATTING
 
 dari instruksi tersebut lakukan task berikut
