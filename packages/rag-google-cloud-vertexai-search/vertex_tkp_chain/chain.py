@@ -214,11 +214,11 @@ dari instruksi tersebut lakukan task berikut
 
 class Question(BaseModel):
     question: str = Field(
-        description="berisi pertanyaan yang harus sesuai kriteria yang diminta, pastikan soal memiliki konteks yang panjang untuk menambah komplesitas soal")
+        description="berisi pertanyaan yang harus sesuai kriteria yang diminta, pastikan soal memiliki konteks yang panjang untuk menambah kompleksitas soal, semakin panjang konteks soal semakin baik")
     answers: list = Field(
         description="list yang berisikan option jawaban yang harus sesuai kriteria yang diminta")
     explanation: str = Field(
-    description="deskripsi jawaban yang harus sesuai kriteria yang diminta tanpa menulis A/B/C/D/E dari optionya, ALWAYS USE HTML TAG FOR FORMATTING")
+    description="deskripsi jawaban yang harus sesuai kriteria yang diminta tanpa menulis A/B/C/D/E dari optionya, ALWAYS USE HTML TAG FOR FORMATTING, selalu diurutkan dari skor tertinggi ke terendah")
 
 
 parser = PydanticOutputParser(pydantic_object=Question)
