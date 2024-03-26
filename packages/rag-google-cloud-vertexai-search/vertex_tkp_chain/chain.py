@@ -136,6 +136,49 @@ pastikan respon yang dibuat harus selalu mengikuti kriteria dan struktur sebagai
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
+
+berikut adalah contoh response yang benar:
+
+
+    "question": "Di sebuah perusahaan multinasional, Anda bekerja sama dengan rekan kerja dari berbagai latar belakang budaya. Anda memperhatikan bahwa beberapa rekan kerja Anda lebih mudah beradaptasi dengan perbedaan budaya dibandingkan yang lain. Menurut Anda, apa faktor yang paling memengaruhi kemampuan seseorang untuk beradaptasi dengan lingkungan kerja yang majemuk?",
+    "answers": 
+        
+            "option": "A",
+            "answer": "Keterbukaan terhadap pengalaman baru",
+            "order": 1,
+            "score": 5,
+            "is_true": true
+        
+        
+            "option": "B",
+            "answer": "Kemampuan untuk mengganti budaya sendiri dengan budaya yang baru",
+            "order": 2,
+            "score": 3,
+            "is_true": false
+        
+        
+            "option": "C",
+            "answer": "Kemauan untuk mempelajari bahasa dan adat istiadat dari budaya lain",
+            "order": 3,
+            "score": 4,
+            "is_true": false
+        
+        
+            "option": "D",
+            "answer": "Kemampuan untuk menghindari konflik dengan rekan kerja dari budaya yang berbeda",
+            "order": 4,
+            "score": 2,
+            "is_true": false
+        
+            "option": "E",
+            "answer": "Keinginan untuk berteman hanya dengan orang-orang dari budaya sendiri",
+            "order": 5,
+            "score": 1,
+            "is_true": false
+        
+                "explanation": "Jawaban yang Benar: Keterbukaan terhadap pengalaman baru <br> <b>(Score: 5)</b> <br> Seseorang yang terbuka terhadap pengalaman baru lebih cenderung menerima dan menghargai perbedaan budaya. Mereka bersedia untuk mencoba hal-hal baru dan belajar tentang budaya lain. <br> Jawaban yang Salah: <br> Kemampuan untuk mengganti budaya sendiri dengan budaya yang baru <br> <b>(Score: 3)</b> <br> Meskipun penting untuk menghormati budaya lain, seseorang tidak boleh mengganti budaya mereka sendiri. Menghargai keberagaman berarti menghargai semua budaya, termasuk budaya sendiri. <br> Kemauan untuk mempelajari bahasa dan adat istiadat dari budaya lain <br> <b>(Score: 4)</b> <br> Meskipun mempelajari bahasa dan adat istiadat dari budaya lain dapat membantu seseorang beradaptasi, hal tersebut bukanlah satu-satunya faktor yang menentukan. Keterbukaan terhadap pengalaman baru lebih penting karena mencakup kemauan untuk belajar dan menerima perbedaan. <br> Kemampuan untuk menghindari konflik dengan rekan kerja dari budaya yang berbeda <br> <b>(Score: 2)</b> <br> Menghindari konflik bukanlah cara yang efektif untuk beradaptasi dengan lingkungan kerja yang majemuk. Sebaliknya, seseorang harus berusaha untuk memahami dan mengatasi perbedaan budaya secara konstruktif. <br> Keinginan untuk berteman hanya dengan orang-orang dari budaya sendiri <br> <b>(Score: 1)</b> <br> Berteman hanya dengan orang-orang dari budaya sendiri menunjukkan kurangnya keterbukaan terhadap pengalaman baru dan merupakan penghalang untuk beradaptasi dengan lingkungan kerja yang majemuk."
+
+
 JANGAN merespon apapun selain soal berupa JSON 
 ALWAYS USE HTML TAG FOR FORMATTING
 
