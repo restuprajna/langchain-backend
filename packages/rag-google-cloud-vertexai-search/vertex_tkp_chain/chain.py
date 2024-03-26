@@ -172,7 +172,7 @@ kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi t
 
 Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta.
 
-Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks semakin panjang konteks soal semakin bagus.
+Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks semakin panjang konteks soal semakin bagus. Desain soal dengan High Order Thinking Skills (HOTS).
 
 option di desain tanpa ada jawaban yang salah namun berikan score dalam yang harus berbeda/unique pada satu opsi deengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
@@ -214,7 +214,7 @@ dari instruksi tersebut lakukan task berikut
 
 class Question(BaseModel):
     question: str = Field(
-        description="berisi pertanyaan yang harus sesuai kriteria yang diminta, pastikan soal memiliki konteks yang panjang untuk menambah kompleksitas soal, semakin panjang konteks soal semakin baik")
+        description="berisi soal HIGH ORDER THINKING SKILLS yang harus sesuai kriteria yang diminta, pastikan soal memiliki konteks yang panjang untuk menambah kompleksitas soal, semakin panjang konteks soal semakin baik")
     answers: list = Field(
         description="list yang berisikan option jawaban yang harus sesuai kriteria yang diminta")
     explanation: str = Field(
