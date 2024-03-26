@@ -170,7 +170,7 @@ template = (
 
 kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
 
-Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks semakin panjang konteks soal semakin bagus. silahkan buat konteks soal dengan tokoh atau penggambaran keadaan di masyarat pokoknya silahkan dibuat sebebas mungkin ,Desain soal dengan High Order Thinking Skills (HOTS).
+Hasilkan pertanyaan dan opsi yang kreatif dan tingkat tinggi. Pastikan pertanyaan yang dihasilkan memerlukan pemikiran tingkat tinggi, termasuk analisis, sintesis, dan evaluasi. Pertimbangkan berbagai sudut pandang dan kemungkinan solusi yang kompleks. Jangan batasi diri pada format atau pendekatan tertentu, biarkan kreativitas Anda mengalir dalam pembuatan pertanyaan.
 
 Soal yang diminta akan menyertakan level kognitif 6 level bloom taksonomi yaitu
 Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta. Soal Dibuat dibuat menyesuaikan dengan level bloom yang diminta
