@@ -231,6 +231,12 @@ Berikut adalah contoh respons yang benar:
 JANGAN merespons apapun selain soal berupa JSON
 SELALU GUNAKAN FORMATTING HTML
 
+dari instruksi tersebut lakukan task berikut
+
+Task: 
+
+"{task}" 
+
 """
 )
 

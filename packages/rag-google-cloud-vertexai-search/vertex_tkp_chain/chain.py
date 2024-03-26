@@ -240,7 +240,15 @@ Berikut adalah contoh respons yang benar:
 
 {format}
 
-SELALU GUNAKAN TAG HTML UNTUK FORMATTING"""
+SELALU GUNAKAN TAG HTML UNTUK FORMATTING
+
+dari instruksi tersebut lakukan task berikut
+
+Task: 
+
+"{task}"
+
+"""
 )
 
 # template = (
