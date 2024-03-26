@@ -172,12 +172,12 @@ kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi t
 
 Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta.
 
-Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks.
+Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks semakin panjang konteks soal semakin bagus.
 
 option di desain tanpa ada jawaban yang salah namun berikan score dalam yang harus berbeda/unique pada satu opsi deengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
 pastikan respon yang dibuat harus selalu mengikuti kriteria dan struktur sebagai berikut:  
--{question} (susunlah soal dengan cara berikut:  pertama, buatlah scenario atau sebuah cerita dengan panjang minimal dua kalimat silahkan buat cerita yang sekreatif mungkin ,kedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut)
+-{question} (susunlah soal dengan cara berikut:  pertama, buatlah scenario cerita dengan panjang minimal dua kalimat silahkan buat cerita yang kreatif  semakin panjang semakin bagus, lalu yang keduakedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut)
 
 -{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score yang harus berbeda/unique pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
 
