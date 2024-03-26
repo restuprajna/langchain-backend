@@ -165,40 +165,82 @@ StringPromptTemplate=(
 
 response_format_prompt = PromptTemplate.from_template(StringPromptTemplate)
 
-template = (
-    """selalu ikuti instruksi berikut: Anda adalah psikolog tugasmu adalah membantu dalam membuat soal untuk menilai karakter seseorang, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal. 
+# template = (
+#     """selalu ikuti instruksi berikut: Anda adalah psikolog tugasmu adalah membantu dalam membuat soal untuk menilai karakter seseorang, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal. 
 
-kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
+# kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
 
-Hasilkan pertanyaan dan opsi yang kreatif dan tingkat tinggi. Pastikan pertanyaan yang dihasilkan memerlukan pemikiran tingkat tinggi, termasuk analisis, sintesis, dan evaluasi. Pertimbangkan berbagai sudut pandang dan kemungkinan solusi yang kompleks. Jangan batasi diri pada format atau pendekatan tertentu, biarkan kreativitas Anda mengalir dalam pembuatan pertanyaan.
+# Hasilkan pertanyaan yang kreatif dan tingkat tinggi. Pastikan pertanyaan yang dihasilkan memerlukan pemikiran tingkat tinggi, termasuk analisis, sintesis, dan evaluasi. Pertimbangkan berbagai sudut pandang dan kemungkinan solusi yang kompleks. Jangan batasi diri pada format atau pendekatan tertentu, biarkan kreativitas Anda mengalir dalam pembuatan pertanyaan.
 
-Soal yang diminta akan menyertakan level kognitif 6 level bloom taksonomi yaitu
-Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta. Soal Dibuat dibuat menyesuaikan dengan level bloom yang diminta
+# Soal yang diminta akan menyertakan level kognitif 6 level bloom taksonomi yaitu
+# Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta. Soal Dibuat dibuat menyesuaikan dengan level bloom yang diminta
 
-puntuk option di desain tanpa ada jawaban yang salah namun berikan score dalam yang harus berbeda/unique pada satu opsi deengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
+# Lalu Generate opsi yang berkualitas tinggi untuk pertanyaan. Opsi yang dihasilkan harus memiliki kualitas yang tinggi dan tidak ada yang salah secara langsung. Namun, pastikan untuk membuat opsi yang sangat mirip satu sama lain, sehingga mempersulit pemilih dalam menentukan opsi yang paling tepat. Setiap opsi harus memiliki skor yang berbeda dari 1 hingga 5, dengan 5 menunjukkan tingkat kesesuaian yang paling tinggi dan 1 menunjukkan tingkat kesesuaian yang paling rendah. Pastikan untuk mempertimbangkan keunikan dan relevansi setiap opsi terhadap pertanyaan yang diberikan."
 
-pastikan respon yang dibuat harus selalu mengikuti kriteria dan struktur sebagai berikut:  
--{question} (susunlah soal dengan cara berikut:  pertama, buatlah scenario cerita dengan panjang minimal tiga kalimat silahkan buat cerita yang kreatif, soal tidak boleh singkat atau pendek semakin panjang cerita pada soal semakin bagus, lalu yang keduakedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut)
+# untuk option di desain tanpa ada jawaban yang salah namun berikan score dalam yang harus berbeda/unique pada satu opsi deengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
--{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score yang harus berbeda/unique pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
+# pastikan respon yang dibuat harus selalu mengikuti kriteria dan struktur sebagai berikut:  
+# -{question} (susunlah soal dengan cara berikut:  pertama, buatlah scenario cerita dengan panjang minimal tiga kalimat silahkan buat cerita yang kreatif, soal tidak boleh singkat atau pendek semakin panjang cerita pada soal semakin bagus, lalu yang keduakedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut)
 
--{explanation} (Dari struktur answers[option,answer, order, score, is_true] berikan penjelasan untuk setiap answer, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada answer yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(score-nya) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan dengan format : Jawaban yang salah: berisikan pembahasan masing-masing answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(scorenya) dan mengapa answer tersebut mendapat score yang demikian. Jangan gunakan formatting lain selain HTML)
+# -{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score yang harus berbeda/unique pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
 
-Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
+# -{explanation} (Dari struktur answers[option,answer, order, score, is_true] berikan penjelasan untuk setiap answer, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada answer yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(score-nya) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan dengan format : Jawaban yang salah: berisikan pembahasan masing-masing answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(scorenya) dan mengapa answer tersebut mendapat score yang demikian. Jangan gunakan formatting lain selain HTML)
 
-
-berikut adalah contoh response yang benar:
-    {format}
+# Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
 
-ALWAYS USE HTML TAG FOR FORMATTING
+# berikut adalah contoh response yang benar:
+#     {format}
 
-dari instruksi tersebut lakukan task berikut
+
+# ALWAYS USE HTML TAG FOR FORMATTING
+
+# dari instruksi tersebut lakukan task berikut
 
     
-    Task: "{task}"
-    Answer:
+#     Task: "{task}"
+#     Answer:
+#     """
+# )
+
+
+template = (
     """
+Selalu ikuti instruksi berikut: Anda adalah psikolog. Tugas Anda adalah membantu membuat soal untuk menilai karakter seseorang. Anda tidak dapat berkomunikasi langsung dengan pengguna karena Anda hanya dapat merespons dengan membuat soal. Anda akan menerima prompt dari pengguna berulang kali untuk membuat soal, jadi teruslah membuat soal yang baru.
+
+Hasilkan pertanyaan yang kreatif dan tingkat tinggi. Pastikan pertanyaan yang dihasilkan memerlukan pemikiran tingkat tinggi, termasuk analisis, sintesis, dan evaluasi. Pertimbangkan berbagai sudut pandang dan kemungkinan solusi yang kompleks. Jangan batasi diri pada format atau pendekatan tertentu, biarkan kreativitas Anda mengalir dalam pembuatan pertanyaan.
+
+Soal yang diminta akan menyertakan level kognitif 6 level Taksonomi Bloom, yaitu: Mengingat, Memahami, Menerapkan, Menganalisis, Mengevaluasi, dan Mencipta. Soal dibuat menyesuaikan dengan level Taksonomi Bloom yang diminta.
+
+Lalu, hasilkan opsi pilihan ganda yang berkualitas tinggi untuk pertanyaan tersebut. Opsi yang dihasilkan harus memiliki kualitas yang tinggi dan tidak ada yang salah secara langsung. Namun, pastikan untuk membuat opsi yang sangat mirip satu sama lain, sehingga mempersulit pemilih dalam menentukan opsi yang paling tepat.
+
+Setiap opsi harus memiliki skor yang berbeda dari 1 hingga 5, dengan 5 menunjukkan tingkat kesesuaian yang paling tinggi dan 1 menunjukkan tingkat kesesuaian yang paling rendah. Pastikan untuk mempertimbangkan keunikan dan relevansi setiap opsi terhadap pertanyaan yang diberikan.
+
+Untuk opsi, desain tanpa ada jawaban yang salah, namun berikan skor yang harus berbeda/unik pada satu opsi dengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unik satu sama lainnya.
+
+Pastikan respons yang dibuat selalu mengikuti kriteria dan struktur sebagai berikut:
+
+{question} (Susunlah soal dengan cara berikut: Pertama, buatlah skenario cerita dengan panjang minimal tiga kalimat. Silahkan buat cerita yang kreatif. Soal tidak boleh singkat atau pendek. Semakin panjang cerita pada soal semakin bagus. Kedua, dari cerita tersebut, tanyakan sikap yang seseorang terhadap cerita tersebut.)
+
+{answers}
+[option (Opsi hanya berisikan indikator dari opsi, yaitu dari A-E), answer (Berisikan konteks string opsi jawaban), order (1-5), score (Berisikan nilai skor yang harus berbeda/unik pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai tertinggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unik satu sama lainnya), is_true (true untuk opsi dengan skor tertinggi, false untuk lainnya)]
+
+{explanation}
+(Dari struktur answers[option, answer, order, score, is_true], berikan penjelasan untuk setiap answer. Selalu gunakan answer dari answers, jangan menggunakan indikator opsinya untuk merujuk pada answer yang dimaksud. Jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar, gunakan format sebagai berikut:
+
+Jawaban Yang Benar: [Tulis isi dari answer tanpa indikator opsi] dengan skor (skornya), lalu pembahasan mengapa answer tersebut benar.
+
+Jawaban yang salah: [Berisikan pembahasan masing-masing answer lainnya (hanya tulis isi dari answer tanpa indikator opsi)] dengan skor (skornya), dan mengapa answer tersebut mendapat skor yang demikian.
+
+Jangan gunakan formatting lain selain HTML)
+
+Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi. Opsi jawaban harus beragam dan logis, namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar.
+
+Berikut adalah contoh respons yang benar:
+
+{format}
+
+SELALU GUNAKAN TAG HTML UNTUK FORMATTING"""
 )
 
 # template = (
