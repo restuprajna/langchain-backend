@@ -220,9 +220,9 @@ Untuk opsi, desain tanpa ada jawaban yang salah, namun berikan skor yang harus b
 
 Pastikan respons yang dibuat selalu mengikuti kriteria dan struktur sebagai berikut:
 
-{question} (Susunlah soal dengan cara berikut: Pertama, buatlah skenario cerita dengan panjang minimal tiga kalimat. Silahkan buat cerita yang kreatif. Soal tidak boleh singkat atau pendek. Semakin panjang cerita pada soal semakin bagus. Kedua, dari cerita tersebut, tanyakan sikap yang seseorang terhadap cerita tersebut.)
+{question} (Susunlah soal dengan cara berikut: Pertama, buatlah skenario cerita dengan panjang minimal 780 karakter. Silahkan buat cerita yang kreatif. Soal tidak boleh singkat atau pendek. Semakin panjang cerita pada soal semakin bagus. Kedua, dari cerita tersebut, tanyakan sikap yang seseorang terhadap cerita tersebut.)
 
-berikut adalah beberapa contoh standar response soal yang diinginkan, ini sebagai refrensi soal yang anda hasilkan mulai dari panjang soal dan kulaitas minimal harus sesuai dengan beberapa soal berikut:
+berikut adalah beberapa contoh standar response soal yang diinginkan, Untuk membuat pertanyaan yang memiliki konteks yang lebih panjang seperti yang Anda inginkan, Anda dapat menyertakan detail tambahan tentang situasi atau latar belakang karakter dalam pertanyaan Anda. Berikut adalah contoh cara Anda dapat menyempurnakan pertanyaan Anda:
     1. Pak Samuel memiliki anak semata wayang bernama Aulia. Suatu hari, diketahui anak Pak Samuel adalah seseorang yang baru lulus di SMK swasta dengan program studi akuntansi. Saat ini Aulia bekerja sebagai seorang akuntan di suatu perusahaan perhiasan emas. Tuntutan atasannya tentu mengharuskan Aulia bekerja efektif sesuai standar perusahaan. Sementara Aulia baru lulus dari sekolahnya. Agar dapat bekerja optimal sesuai tuntutan atasannya, apa yang sebaiknya dilakukan Aulia?
 
     2. Seperti biasanya, Anda selalu disibukkan dengan rutinitas pekerjaan Anda sebagai costumer service di Bank A. Pada siang ini, Anda sangat disibukkan dengan menginput data nasabah karena lonjakan jumlah nasabah bulan ini. Ketika sedang menginput, ada ibu-ibu yang sudah tua mendatangi Anda. Ibu tersebut menanyakan terkait prosedur pencairan dana pensiunnya yang akan digunakan untuk membiayai anaknya yang sedang dirawat di rumah sakit. Ibu tersebut sangat membutuhkan uang tersebut untuk membayar semua biaya tersebut. Anda menjelaskan terkait prosedur pencairan dana tersebut dengan bahasa yang sederhana dan mudah dipahami. Akan tetapi, ibu tersebut kebingungan dan mengatakan bahwa dia tetap belum mengerti terkait prosedur tersebut. Hal yang akan Anda lakukan selanjutnya adalah ...
@@ -230,6 +230,14 @@ berikut adalah beberapa contoh standar response soal yang diinginkan, ini sebaga
     3. Anda adalah seorang guru wanita yang sudah bekerja selama lima tahun. Sehari-hari Anda ditugaskan untuk mengajar murid SMP. Suatu hari, Anda mendapat tawaran untuk mengikuti program pertukaran guru selama sebulan ke sebuah sekolah di Aceh. Karena Anda beragama islam, Anda tertarik untuk mengikuti program tersebut. Di hari pertama Anda mulai mengajar di sana, Anda memperhatikan bahwa setiap Wanita di sekolah tersebut, baik guru, maupun murid, menggunakan jilbab. Anda sendiri belum mengenakan jilbab. Apa tindakan yang sebaiknya Anda lakukan?
 
     4. Setiap perusahaan tentu menuntut pekerja perusahaan tersebut untuk bekerja secara profesional. Salah satunya yaitu setiap pekerja harus beraktivitas sesuai dengan kewajiban dan tanggung jawab masing-masing pekerja yang telah ditetapkan pada kontrak kinerja. Di lingkungan tempat saya bekerja ada peraturan yang mengatur tentang larangan menggunakan gadget untuk bermain selama bekerja. Namun pada kenyataannya atasan dan rekan kerja saya kerap kali melanggar peraturan tersebut sehinga bertentangan dengan hitam di atas putih pada perusahaan. Sikap saya dalam hal tersebut adalah ...
+
+JANGAN hasilkan soal yang pendek dan minim konteks seperti beberapa soal berikut:
+    1. Ketika Anda bekerja di lingkungan kerja yang majemuk, di mana Anda berinteraksi dengan rekan kerja dari berbagai latar belakang budaya, menurut Anda apa hal terpenting yang harus dilakukan untuk membangun hubungan kerja yang harmonis?
+    2. Dalam sebuah rapat kerja, seorang anggota tim mengutarakan pendapat yang bertentangan dengan pandangan kelompok. Sikap Anda terhadap pendapat tersebut adalah ...
+    3. Dalam menghadapi perbedaan pendapat yang terjadi di masyarakat, sikap yang tepat untuk menghindari konflik dan perpecahan adalah...
+    4. Dalam sebuah tim kerja yang terdiri dari individu dengan latar belakang budaya yang beragam, saya percaya bahwa kemampuan terpenting untuk beradaptasi secara efektif adalah..
+    5. Di sebuah pusat perbelanjaan yang ramai, Anda menyaksikan seorang wanita tua kesulitan membawa belanjaannya yang banyak dan berat. Sebagai karyawan pusat perbelanjaan, sikap yang tepat untuk Anda lakukan adalah..
+
 
 {answers}
 [option (Opsi hanya berisikan indikator dari opsi, yaitu dari A-E), answer (Berisikan konteks string opsi jawaban), order (1-5), score (Berisikan nilai skor yang harus berbeda/unik pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai tertinggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unik satu sama lainnya), is_true (true untuk opsi dengan skor tertinggi, false untuk lainnya)]
@@ -257,6 +265,7 @@ Task:
 
 "{task}"
 
+Walupun Task yang diberikan terlalu rumit sehingga kamu membuat soal yang singkat namun coba cari tahu terlebih dahulu maksud dari topik yang diminta utamakan hasilkan soal yang kreatif dan konteks yang panjang jangan yang singkat. Walaupun soal perlu melenceng sedikit dari topik sedikit tidak masalah yang penting hasil soalnya panjang ceritanya bisa dibuat sebebas mungkin.
 """
 )
 
@@ -272,7 +281,7 @@ Task:
 
 class Question(BaseModel):
     question: str = Field(
-        description="berisi soal HIGH ORDER THINKING SKILLS yang harus sesuai kriteria yang diminta, pastikan soal memiliki konteks yang panjang untuk menambah kompleksitas soal, question tidak boleh terlalu singkat atau pendek semakin panjang konteks soal semakin baik")
+        description="berisi soal HIGH ORDER THINKING SKILLS yang harus sesuai kriteria yang diminta, pastikan soal memiliki konteks yang panjang untuk menambah kompleksitas soal. minimal 780 character. question tidak boleh terlalu singkat atau pendek semakin panjang konteks soal semakin baik")
     answers: list = Field(
         description="list yang berisikan option jawaban yang harus sesuai kriteria yang diminta")
     explanation: str = Field(
