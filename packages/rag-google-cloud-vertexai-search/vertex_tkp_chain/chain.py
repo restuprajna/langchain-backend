@@ -222,6 +222,9 @@ Pastikan respons yang dibuat selalu mengikuti kriteria dan struktur sebagai beri
 
 {question} (Susunlah soal dengan cara berikut: Pertama, buatlah skenario cerita dengan panjang minimal tiga kalimat. Silahkan buat cerita yang kreatif. Soal tidak boleh singkat atau pendek. Semakin panjang cerita pada soal semakin bagus. Kedua, dari cerita tersebut, tanyakan sikap yang seseorang terhadap cerita tersebut.)
 
+berikut adalah contoh standar soal yang dimaksud:
+Pak Samuel memiliki anak semata wayang bernama Aulia. Suatu hari, diketahui anak Pak Samuel adalah seseorang yang baru lulus di SMK swasta dengan program studi akuntansi. Saat ini Aulia bekerja sebagai seorang akuntan di suatu perusahaan perhiasan emas. Tuntutan atasannya tentu mengharuskan Aulia bekerja efektif sesuai standar perusahaan. Sementara Aulia baru lulus dari sekolahnya. Agar dapat bekerja optimal sesuai tuntutan atasannya, apa yang sebaiknya dilakukan Aulia?
+
 {answers}
 [option (Opsi hanya berisikan indikator dari opsi, yaitu dari A-E), answer (Berisikan konteks string opsi jawaban), order (1-5), score (Berisikan nilai skor yang harus berbeda/unik pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai tertinggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unik satu sama lainnya), is_true (true untuk opsi dengan skor tertinggi, false untuk lainnya)]
 
