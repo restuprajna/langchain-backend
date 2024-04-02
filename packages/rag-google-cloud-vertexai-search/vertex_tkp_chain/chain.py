@@ -82,7 +82,11 @@ safety_settings_NONE=safety_settings = {
 google_api: str = os.environ["GOOGLE_API_KEY"]
 vertex_model: str = os.environ["vertex_model"]
 
-llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safety_settings=safety_settings_NONE)
+llm = ChatGoogleGenerativeAI(temperature= 1.0 ,
+                            model=vertex_model, 
+                            google_api_key=google_api, 
+                            safety_settings=safety_settings_NONE,
+                            )
 
 
 
@@ -117,50 +121,98 @@ llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safe
 #     """
 # )
 
-StringPromptTemplate=(
+# StringPromptTemplate=(
+#     """
+#     {{ 
+#         "question": "Di sebuah perusahaan multinasional, Anda bekerja sama dengan rekan kerja dari berbagai latar belakang budaya. Anda memperhatikan bahwa beberapa rekan kerja Anda lebih mudah beradaptasi dengan perbedaan budaya dibandingkan yang lain. Menurut Anda, apa faktor yang paling memengaruhi kemampuan seseorang untuk beradaptasi dengan lingkungan kerja yang majemuk?",
+#         "answers": [
+#             {{
+#                 "option": "A",
+#                 "answer": "Keterbukaan terhadap pengalaman baru",
+#                 "order": 1,
+#                 "score": 5,
+#                 "is_true": true
+#             }},
+#             {{
+#                 "option": "B",
+#                 "answer": "Kemampuan untuk mengganti budaya sendiri dengan budaya yang baru",
+#                 "order": 2,
+#                 "score": 3,
+#                 "is_true": false
+#             }},
+#             {{
+#                 "option": "C",
+#                 "answer": "Kemauan untuk mempelajari bahasa dan adat istiadat dari budaya lain",
+#                 "order": 3,
+#                 "score": 4,
+#                 "is_true": false
+#             }},
+#             {{        
+#                 "option": "D",
+#                 "answer": "Kemampuan untuk menghindari konflik dengan rekan kerja dari budaya yang berbeda",
+#                 "order": 4,
+#                 "score": 2,
+#                 "is_true": false
+#             }},
+#             {{
+#                 "option": "E",
+#                 "answer": "Keinginan untuk berteman hanya dengan orang-orang dari budaya sendiri",
+#                 "order": 5,
+#                 "score": 1,
+#                 "is_true": false
+#             }},
+#         ],
+#                 "explanation": "Jawaban yang Benar: Keterbukaan terhadap pengalaman baru <br> <b>(Score: 5)</b> <br> Seseorang yang terbuka terhadap pengalaman baru lebih cenderung menerima dan menghargai perbedaan budaya. Mereka bersedia untuk mencoba hal-hal baru dan belajar tentang budaya lain. <br> Jawaban yang Salah: <br> Kemampuan untuk mengganti budaya sendiri dengan budaya yang baru <br> <b>(Score: 3)</b> <br> Meskipun penting untuk menghormati budaya lain, seseorang tidak boleh mengganti budaya mereka sendiri. Menghargai keberagaman berarti menghargai semua budaya, termasuk budaya sendiri. <br> Kemauan untuk mempelajari bahasa dan adat istiadat dari budaya lain <br> <b>(Score: 4)</b> <br> Meskipun mempelajari bahasa dan adat istiadat dari budaya lain dapat membantu seseorang beradaptasi, hal tersebut bukanlah satu-satunya faktor yang menentukan. Keterbukaan terhadap pengalaman baru lebih penting karena mencakup kemauan untuk belajar dan menerima perbedaan. <br> Kemampuan untuk menghindari konflik dengan rekan kerja dari budaya yang berbeda <br> <b>(Score: 2)</b> <br> Menghindari konflik bukanlah cara yang efektif untuk beradaptasi dengan lingkungan kerja yang majemuk. Sebaliknya, seseorang harus berusaha untuk memahami dan mengatasi perbedaan budaya secara konstruktif. <br> Keinginan untuk berteman hanya dengan orang-orang dari budaya sendiri <br> <b>(Score: 1)</b> <br> Berteman hanya dengan orang-orang dari budaya sendiri menunjukkan kurangnya keterbukaan terhadap pengalaman baru dan merupakan penghalang untuk beradaptasi dengan lingkungan kerja yang majemuk.
+#     }}
+#     """
+# )
+
+
+
+StringPromptTemplate = (
     """
-    {{ 
-        "question": "Di sebuah perusahaan multinasional, Anda bekerja sama dengan rekan kerja dari berbagai latar belakang budaya. Anda memperhatikan bahwa beberapa rekan kerja Anda lebih mudah beradaptasi dengan perbedaan budaya dibandingkan yang lain. Menurut Anda, apa faktor yang paling memengaruhi kemampuan seseorang untuk beradaptasi dengan lingkungan kerja yang majemuk?",
-        "answers": [
-            {{
-                "option": "A",
-                "answer": "Keterbukaan terhadap pengalaman baru",
-                "order": 1,
-                "score": 5,
-                "is_true": true
-            }},
-            {{
-                "option": "B",
-                "answer": "Kemampuan untuk mengganti budaya sendiri dengan budaya yang baru",
-                "order": 2,
-                "score": 3,
-                "is_true": false
-            }},
-            {{
-                "option": "C",
-                "answer": "Kemauan untuk mempelajari bahasa dan adat istiadat dari budaya lain",
-                "order": 3,
-                "score": 4,
-                "is_true": false
-            }},
-            {{        
-                "option": "D",
-                "answer": "Kemampuan untuk menghindari konflik dengan rekan kerja dari budaya yang berbeda",
-                "order": 4,
-                "score": 2,
-                "is_true": false
-            }},
-            {{
-                "option": "E",
-                "answer": "Keinginan untuk berteman hanya dengan orang-orang dari budaya sendiri",
-                "order": 5,
-                "score": 1,
-                "is_true": false
-            }},
-        ],
-                "explanation": "Jawaban yang Benar: Keterbukaan terhadap pengalaman baru <br> <b>(Score: 5)</b> <br> Seseorang yang terbuka terhadap pengalaman baru lebih cenderung menerima dan menghargai perbedaan budaya. Mereka bersedia untuk mencoba hal-hal baru dan belajar tentang budaya lain. <br> Jawaban yang Salah: <br> Kemampuan untuk mengganti budaya sendiri dengan budaya yang baru <br> <b>(Score: 3)</b> <br> Meskipun penting untuk menghormati budaya lain, seseorang tidak boleh mengganti budaya mereka sendiri. Menghargai keberagaman berarti menghargai semua budaya, termasuk budaya sendiri. <br> Kemauan untuk mempelajari bahasa dan adat istiadat dari budaya lain <br> <b>(Score: 4)</b> <br> Meskipun mempelajari bahasa dan adat istiadat dari budaya lain dapat membantu seseorang beradaptasi, hal tersebut bukanlah satu-satunya faktor yang menentukan. Keterbukaan terhadap pengalaman baru lebih penting karena mencakup kemauan untuk belajar dan menerima perbedaan. <br> Kemampuan untuk menghindari konflik dengan rekan kerja dari budaya yang berbeda <br> <b>(Score: 2)</b> <br> Menghindari konflik bukanlah cara yang efektif untuk beradaptasi dengan lingkungan kerja yang majemuk. Sebaliknya, seseorang harus berusaha untuk memahami dan mengatasi perbedaan budaya secara konstruktif. <br> Keinginan untuk berteman hanya dengan orang-orang dari budaya sendiri <br> <b>(Score: 1)</b> <br> Berteman hanya dengan orang-orang dari budaya sendiri menunjukkan kurangnya keterbukaan terhadap pengalaman baru dan merupakan penghalang untuk beradaptasi dengan lingkungan kerja yang majemuk.
-    }}
-    """
+{{
+            "question": "Dalam rangka meningkatkan kualitas pelayanan yang diberikan, sebuah perusahaan yang bergerak di bidang perhotelan melakukan survei kepada para tamunya. Salah satu pertanyaan dalam survei tersebut menanyakan pendapat tamu tentang fasilitas yang disediakan oleh pihak hotel. Salah satu tamu yang mengisi survei tersebut memberikan komentar bahwa ia merasa kurang puas dengan fasilitas sarapan pagi yang disediakan oleh pihak hotel. Menurut Anda, sebagai seorang karyawan di bagian pelayanan tamu, sikap yang tepat untuk menanggapi komentar tamu tersebut adalah...",
+            "answers": [
+                {{
+                    "option": "A",
+                    "answer": "Menjelaskan kepada tamu bahwa fasilitas sarapan pagi sudah sesuai dengan standar yang ditetapkan oleh manajemen hotel.",
+                    "order": 1,
+                    "score": 2,
+                    "is_true": false
+                }},
+                {{
+                    "option": "B",
+                    "answer": "Meminta maaf atas ketidakpuasan tamu dan berjanji akan menyampaikan keluhan tersebut kepada manajemen hotel.",
+                    "order": 2,
+                    "score": 4,
+                    "is_true": false
+                }},
+                {{
+                    "option": "C",
+                    "answer": "Mencoba membujuk tamu untuk mengubah pendapatnya tentang fasilitas sarapan pagi yang disediakan.",
+                    "order": 3,
+                    "score": 1,
+                    "is_true": false
+                }},
+                {{
+                    "option": "D",
+                    "answer": "Menjelaskan kepada tamu bahwa fasilitas sarapan pagi yang disediakan sudah sesuai dengan harga yang dibayarkan tamu.",
+                    "order": 4,
+                    "score": 3,
+                    "is_true": false
+                }},
+                {{
+                    "option": "E",
+                    "answer": "Menyampaikan terima kasih atas masukan dari tamu dan berjanji akan menindaklanjutinya dengan pihak terkait.",
+                    "order": 5,
+                    "score": 5,
+                    "is_true": true
+                }}
+            ],
+            "explanation": "Jawaban yang Benar: Menyampaikan terima kasih atas masukan dari tamu dan berjanji akan menindaklanjutinya dengan pihak terkait. <br> <b>(Score: 5)</b> <br> Sikap ini menunjukkan bahwa karyawan menghargai masukan dari tamu dan bersedia untuk mengambil tindakan untuk meningkatkan kualitas pelayanan. <br> Jawaban yang Salah: <br> Menjelaskan kepada tamu bahwa fasilitas sarapan pagi sudah sesuai dengan standar yang ditetapkan oleh manajemen hotel. <br> <b>(Score: 2)</b> <br> Sikap ini menunjukkan bahwa karyawan tidak mau menerima kritik dan tidak berusaha untuk meningkatkan kualitas pelayanan. <br> Meminta maaf atas ketidakpuasan tamu dan berjanji akan menyampaikan keluhan tersebut kepada manajemen hotel. <br> <b>(Score: 4)</b> <br> Sikap ini menunjukkan bahwa karyawan peduli dengan kepuasan tamu, namun tidak menunjukkan bahwa mereka akan mengambil tindakan untuk meningkatkan kualitas pelayanan. <br> Mencoba membujuk tamu untuk mengubah pendapatnya tentang fasilitas sarapan pagi yang disediakan. <br> <b>(Score: 1)</b> <br> Sikap ini menunjukkan bahwa karyawan tidak menghargai pendapat tamu dan tidak berusaha untuk meningkatkan kualitas pelayanan. <br> Menjelaskan kepada tamu bahwa fasilitas sarapan pagi yang disediakan sudah sesuai dengan harga yang dibayarkan tamu. <br> <b>(Score: 3)</b> <br> Sikap ini menunjukkan bahwa karyawan lebih mementingkan keuntungan hotel daripada kepuasan tamu."
+        }}
+"""
 )
 
 response_format_prompt = PromptTemplate.from_template(StringPromptTemplate)
@@ -212,15 +264,15 @@ Hasilkan pertanyaan yang kreatif dan tingkat tinggi. Pastikan pertanyaan yang di
 
 Soal yang diminta akan menyertakan level kognitif 6 level Taksonomi Bloom, yaitu: Mengingat, Memahami, Menerapkan, Menganalisis, Mengevaluasi, dan Mencipta. Soal dibuat menyesuaikan dengan level Taksonomi Bloom yang diminta.
 
-Lalu, hasilkan opsi pilihan ganda yang berkualitas tinggi untuk pertanyaan tersebut. Opsi yang dihasilkan harus memiliki kualitas yang tinggi dan tidak ada yang salah secara langsung. Namun, pastikan untuk membuat opsi yang sangat mirip satu sama lain, sehingga mempersulit pemilih dalam menentukan opsi yang paling tepat.
+Lalu, hasilkan opsi pilihan ganda yang berkualitas tinggi minimal 15 kata untuk pertanyaan tersebut. Opsi yang dihasilkan harus memiliki kualitas yang tinggi dan menimbulkan dilema etis dalam mengambil keputusan sehingga siswa harus kritis untuk menjawab soal dengan opsi tersebut. Namun, pastikan untuk membuat opsi yang sangat mirip satu sama lain, sehingga mempersulit pemilih dalam menentukan opsi yang paling tepat.
 
-Setiap opsi harus memiliki skor yang berbeda dari 1 hingga 5, dengan 5 menunjukkan tingkat kesesuaian yang paling tinggi dan 1 menunjukkan tingkat kesesuaian yang paling rendah. Pastikan untuk mempertimbangkan keunikan dan relevansi setiap opsi terhadap pertanyaan yang diberikan.
+Setiap opsi harus memiliki skor yang berbeda dari 1 hingga 5, dengan 5 menunjukkan tingkat kesesuaian yang paling tinggi dan 1 menunjukkan tingkat kesesuaian yang paling rendah. Pastikan untuk mempertimbangkan relevansi setiap opsi terhadap pertanyaan yang diberikan. Opsi yang dihasilkan harus memiliki kualitas yang tinggi dan menimbulkan dilema etis dalam mengambil keputusan sehingga siswa harus kritis untuk menjawab soal dengan opsi tersebut
 
-Untuk opsi, desain tanpa ada jawaban yang salah, namun berikan skor yang harus berbeda/unik pada satu opsi dengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unik satu sama lainnya.
+Untuk opsi, desain Opsi yang dihasilkan harus memiliki kualitas yang tinggi dan menimbulkan dilema etis dalam mengambil keputusan sehingga siswa harus kritis untuk menjawab soal dengan opsi tersebut minimal 15 kata, namun berikan skor yang harus berbeda/unik pada satu opsi dengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unik satu sama lainnya.
 
 Pastikan respons yang dibuat selalu mengikuti kriteria dan struktur sebagai berikut:
 
-{question} (Susunlah soal dengan cara berikut: Pertama, buatlah skenario cerita sebagai konteks dengan panjang minimal 780 karakter atau tiga kalimat. Silahkan buat cerita yang kreatif. cerita bisa berupa latar belakang seorang tokoh, menceritakan tokoh fiksi, penggambaran sebuah keadaan yang detail kondisinya harus jelas jangan buat konteks yang terlalu umum atau general. Soal tidak boleh singkat atau pendek. Semakin panjang cerita pada soal semakin bagus. Kedua, dari cerita tersebut, tanyakan sikap yang seseorang terhadap cerita tersebut.)
+{question} (Susunlah soal dengan cara berikut: Pertama, buatlah skenario cerita sebagai konteks dengan panjang minimal 150 kata sampai maksimal 200 kata. Silahkan buat cerita yang kreatif. cerita bisa berupa latar belakang seorang tokoh, menceritakan tokoh fiksi, penggambaran sebuah keadaan yang detail kondisinya harus jelas jangan buat konteks yang terlalu umum atau general. Semakin panjang cerita pada soal semakin bagus. Kedua, dari cerita tersebut, tanyakan sikap yang seseorang terhadap cerita tersebut.)
 
 berikut adalah beberapa contoh standar response soal yang diinginkan, Untuk membuat pertanyaan yang memiliki konteks yang lebih panjang seperti yang Anda inginkan, Anda dapat menyertakan detail tambahan tentang situasi atau latar belakang karakter dalam pertanyaan Anda. Berikut adalah contoh cara Anda dapat menyempurnakan pertanyaan Anda:
     1. Pak Samuel memiliki anak semata wayang bernama Aulia. Suatu hari, diketahui anak Pak Samuel adalah seseorang yang baru lulus di SMK swasta dengan program studi akuntansi. Saat ini Aulia bekerja sebagai seorang akuntan di suatu perusahaan perhiasan emas. Tuntutan atasannya tentu mengharuskan Aulia bekerja efektif sesuai standar perusahaan. Sementara Aulia baru lulus dari sekolahnya. Agar dapat bekerja optimal sesuai tuntutan atasannya, apa yang sebaiknya dilakukan Aulia?
@@ -240,7 +292,21 @@ JANGAN hasilkan soal yang pendek dan minim konteks seperti beberapa soal berikut
 
 
 {answers}
-[option (Opsi hanya berisikan indikator dari opsi, yaitu dari A-E), answer (Berisikan konteks string opsi jawaban), order (1-5), score (Berisikan nilai skor yang harus berbeda/unik pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai tertinggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unik satu sama lainnya), is_true (true untuk opsi dengan skor tertinggi, false untuk lainnya)]
+[option (Opsi hanya berisikan indikator dari opsi, yaitu dari A-E minimal 15 kata untuk masing-masing opsi), answer (Berisikan konteks string opsi jawaban), order (1-5), score (Berisikan nilai skor yang harus berbeda/unik pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai tertinggi 5, dan ingatlah tiap Opsi yang dihasilkan harus memiliki kualitas yang tinggi dan menimbulkan dilema etis dalam mengambil keputusan sehingga siswa harus kritis untuk menjawab soal dengan opsi tersebut), is_true (true untuk opsi dengan skor tertinggi, false untuk lainnya)]
+
+Berikut adalah kriteria dari masing masing score yang diberikan pada opsi, opsi yang dibuat diharapkan sulit untuk dibedakan scorenya jika dibaca sekilas. diharapkan soal dengan score 5 dan score 1 tidak memiliki perbedaan yang sangat drastis sehingga mudah sekali dibedakan sehingga menimbulkan dilema ketika memilih jawaban yang benar dari opsinya: 
+question : Saya sedang mengerjakan laporan tugas semester yang akan dikumpulkan besok pagi. Tiba-tiba sahabat saya datang dengan wajah sedih dan ingin curhat pada saya. Sikap saya adalah...
+
+-Score 5 : merangkum solusi yang paling etis dan paling memperhatikan keadilan, kebaikan umum, dan prinsip-prinsip moral yang tinggi. Jawaban ini harus menunjukkan pemahaman mendalam tentang situasi yang dihadapi dan menawarkan solusi yang paling sesuai dengan standar etika yang tinggi. (B. Memberikan tanggapan yang wajar sambil tetap mengerjakan laporan saya)
+
+-Score 4 :  harus masih mengutamakan prinsip-prinsip moral dan etika, namun mungkin memiliki beberapa kompromi atau implikasi yang tidak terlalu jelas. Jawaban ini mungkin menawarkan pendekatan yang lebih praktis atau memperhitungkan faktor-faktor lain yang tidak sepenuhnya bersifat moral, tetapi tetap mempertahankan tingkat integritas moral yang tinggi (E. Dengan menyesal menolak mende ngarkan keluhannya)
+
+-Score 3 : mungkin menunjukkan adanya dilema antara kepentingan individu dan kepentingan kelompok atau antara prinsip-prinsip etis yang berbeda. Jawaban ini bisa mencakup pertimbangan etika yang kompleks namun juga mempertimbangkan faktor-faktor praktis atau pribadi yang mungkin mempengaruhi pengambilan keputusan (C. Meneruskan mengerjakan laporan tanpa mempedulikan teman saya)
+
+-Score 2 : Opsi dengan skor 2 mungkin mencerminkan pendekatan yang lebih pragmatis atau mengutamakan kepentingan pribadi atau kelompok atas keadilan atau moralitas umum. Jawaban ini mungkin menunjukkan kecenderungan untuk mengabaikan beberapa prinsip etika dalam mendukung kepentingan tertentu atau dalam situasi di mana pertimbangan etika tidak diutamakan (A. Pura-pura mendengarkan ceritanya dan fokus pada pekerjaan saya)
+
+-Score 1 :mungkin menunjukkan kurangnya kesadaran atau perhatian terhadap prinsip-prinsip moral yang mendasari situasi yang dihadapi. Jawaban ini mungkin lebih cenderung untuk mengabaikan implikasi etis dari tindakan yang diambil, dengan lebih memperhatikan kepentingan pribadi atau keuntungan langsung tanpa mempertimbangkan konsekuensi moral yang lebih luas (D. Menanggapi dan memberi berbagai alternatif solusi)
+
 
 {explanation}
 (Dari struktur answers[option, answer, order, score, is_true], berikan penjelasan untuk setiap answer. Selalu gunakan answer dari answers, jangan menggunakan indikator opsinya untuk merujuk pada answer yang dimaksud. Jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar, gunakan format sebagai berikut:
@@ -253,7 +319,7 @@ Jangan gunakan formatting lain selain HTML)
 
 Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi. Opsi jawaban harus beragam dan logis, namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar.
 
-Berikut adalah contoh respons yang benar:
+Berikut adalah contoh respons yang benar bahkan dengan opsi yang mirip sehingga menyusahkan peserta untuk menjawab soal:
 
 {format}
 
@@ -283,7 +349,7 @@ class Question(BaseModel):
     question: str = Field(
         description="berisi soal HIGH ORDER THINKING SKILLS yang harus sesuai kriteria yang diminta, pastikan soal memiliki konteks yang panjang untuk menambah kompleksitas soal. minimal 780 character. question tidak boleh terlalu singkat atau pendek semakin panjang konteks soal semakin baik")
     answers: list = Field(
-        description="list yang berisikan option jawaban yang harus sesuai kriteria yang diminta")
+        description="list yang berisikan option jawaban yang harus sesuai kriteria yang diminta. Yaitu setiap opsi minimal memiliki 15 words")
     explanation: str = Field(
     description="deskripsi jawaban yang harus sesuai kriteria yang diminta tanpa menulis A/B/C/D/E dari optionya, ALWAYS USE HTML TAG FOR FORMATTING, selalu diurutkan dari skor tertinggi ke terendah")
 
