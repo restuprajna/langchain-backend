@@ -76,8 +76,10 @@ safety_settings_NONE=safety_settings = {
 
 google_api: str = os.environ["GOOGLE_API_KEY"]
 vertex_model: str = os.environ["vertex_model"]
-
-llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safety_settings=safety_settings_NONE)
+llm = ChatGoogleGenerativeAI(temperature=1.0,
+                            model=vertex_model, 
+                            google_api_key=google_api, 
+                            safety_settings=safety_settings_NONE)
 
 
 
