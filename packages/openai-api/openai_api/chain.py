@@ -3,9 +3,10 @@ import os
 from langchain_community.retrievers import GoogleVertexAISearchRetriever
 # from langchain_community.chat_models import ChatVertexAI
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
+from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain.output_parsers import PydanticOutputParser
 
 from langchain_openai import ChatOpenAI
 # from langsmith import Client
@@ -68,26 +69,28 @@ llm = ChatOpenAI(model=gpt_model)
 
 # user_prompt = "Saya akan menguji kemampuan siswa saya tentang Menilai penguasaan pengetahuan dan kemampuan Pilar Negara yaitu Mampu membentuk karakter positif melalui pemahaman dan pengamalan nilai-nilai dalam pancasila, UUD 1945, NKRI, dan Bhinneka Tunggal Ika dalam pembelajaran Seleksi Kompetensi Dasar - Tes Wawasan Kebangsaan sub bagian Pilar Negara. Sekarang, saya ingin membuat soal untuk menguji kemampuan siswa tersebut. Buatlah soal baru berbentuk pilihan ganda dengan tujuan Pemahaman materi Pancasila sebagai Paradigma Pembangunan, dengan harapan Mengerti dan memahami tentang pilar negara serta Pancasila sebagai dasar, falsafah dan ideologi negara, Mengerti dan memahami konsep Pancasila sebagai ideologi terbuka dan sumber nilai, serta butir-butir pengamalan Pancasila berdasarkan Bloom Taksonomi 2001 level Menganalisis (C4). Gunakan peristiwa nyata yang terjadi baru-baru ini di Indonesia sebagai stimulus, kemudian buat soal berdasarkan kasus tersebut. Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi. Opsi jawaban harus beragam dan logis namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Hindari bahasa dan kalimat yang terlalu sederhana. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. Soal dibuat beserta pembahasan mengapa pilihan yang benar itu benar."
 
-ANSWER_PROMPT = ChatPromptTemplate.from_template(
-    """selalu ikuti instruksi berikut: kamu adalah seorang penguji dalam ujian Seleksi Kompetensi Bidang (SKB). Kamu bertugas untuk membuat soal SKB sesuai dengan kompetensi bidang masing-masing jabatan yang dipilih oleh calon ASN atau CPNS dalam seleksi akhir penerimaan Pegawai Negeri Sipil, dimana kamu hanya membuat soal, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal, soal yang dibuat berdasarkan pada level bloom taksonomi yang diminta. 
+template = (
+    """selalu ikuti instruksi berikut: Anda adalah psikolog tugasmu hanya membuat soal untuk menilai karakter seseorang, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal. 
 
 kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
 
 Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta.
 
-saya sudah tambahkan file yang berisi kata kunci kognitif pada setiap level taksonomi bloom gunakan file tersebut sebagai tambahan referensi dalam membuat soal
-
 Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks.
 
-respon hanya berupa soal dalam bentuk json dengan struktur:  
--question, 
--answers[option (A-E), answer, order (1-5) , score (0 or 5), is_true(true or false)],
--explanation
+option di desain tanpa ada jawaban yang salah namun berikan score dalam yang harus berbeda/unique pada satu opsi deengan opsi yang lain, dengan rentang nilai 1-5, dan tiap skor pada masing-masing opsi haruslah berbeda/unique satu sama lainnya.
 
-Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. Soal dibuat beserta pembahasan dari masing masing opsi mengapa opsi mendapat score tersebut
+pastikan respon yang dibuat harus selalu mengikuti kriteria dan struktur sebagai berikut:  
+-{question} (susunlah soal dengan cara berikut:  pertama, buatlah scenario atau sebuah cerita dengan panjang minimal dua kalimat silahkan buat cerita yang sekreatif mungkin ,kedua dari cerita tersebut tanyakan sikap yang seseorang terhadap cerita tersebut)
+
+-{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (berisikan nilai score yang harus berbeda/unique pada satu opsi dengan opsi yang lain dengan rentang nilai terendah 1 dan nilai terginggi 5, dan ingatlah tiap opsi harus memiliki nilai yang berbeda/unique satu sama lainnya), is_true(true untuk opsi dengan or false)],
+
+-{explanation} (Dari struktur answers[option,answer, order, score, is_true] berikan penjelasan untuk setiap answer, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada answer yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut kurang benar,gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(score-nya) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan dengan format : Jawaban yang salah: berisikan pembahasan masing-masing answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) tulis dengan score(scorenya) dan mengapa answer tersebut mendapat score yang demikian. Jangan gunakan formatting lain selain HTML)
+
+Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
 JANGAN merespon apapun selain soal berupa JSON 
-
+ALWAYS USE HTML TAG FOR FORMATTING
 
 dari instruksi tersebut lakukan task berikut
 
@@ -98,26 +101,38 @@ dari instruksi tersebut lakukan task berikut
 )
 
 
+class Question(BaseModel):
+    question: str = Field(
+        description="berisi pertanyaan yang harus sesuai kriteria yang diminta")
+    answers: list = Field(
+        description="list yang berisikan option jawaban yang harus sesuai kriteria yang diminta")
+    explanation: str = Field(
+    description="deskripsi jawaban yang harus sesuai kriteria yang diminta tanpa menulis A/B/C/D/E dari optionya, ALWAYS USE HTML TAG FOR FORMATTING")
 
+
+parser = PydanticOutputParser(pydantic_object=Question)
+
+prompt = PromptTemplate(
+    template=template,
+    input_variables=['task'],
+    partial_variables={"question": parser.get_format_instructions(), "answers": parser.get_format_instructions(), "explanation": parser.get_format_instructions()},
+)
 
 chain = (
-    {"task": RunnablePassthrough()}
-    | ANSWER_PROMPT
-    | llm
-    | StrOutputParser()
+    {"task": RunnablePassthrough()} |
+    prompt | llm | parser
 )
+
 
 # ans = chain.invoke(user_prompt)
 
 
 
-
-
 # Add typing for input
-class Question(BaseModel):
+class InputPrompt(BaseModel):
     __root__: str
     # input:InputPrompt
     # metadata: str
 
 
-chain = chain.with_types(input_type=Question)
+chain = chain.with_types(input_type=InputPrompt)
