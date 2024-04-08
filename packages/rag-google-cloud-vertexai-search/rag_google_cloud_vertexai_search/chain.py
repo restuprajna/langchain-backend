@@ -3,12 +3,21 @@ import os
 from langchain_community.retrievers import GoogleVertexAISearchRetriever
 # from langchain_community.chat_models import ChatVertexAI
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel
-from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate, StringPromptTemplate
+from langchain_core.pydantic_v1 import BaseModel, Field
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from langchain_google_genai import ChatGoogleGenerativeAI
-from dotenv import load_dotenv
 from google.generativeai.types.safety_types import HarmBlockThreshold, HarmCategory
+from langchain.prompts.pipeline import PipelinePromptTemplate
+from langchain.output_parsers import (
+    OutputFixingParser,
+    PydanticOutputParser,
+    RetryOutputParser,
+    ResponseSchema,
+    StructuredOutputParser,
+    RetryOutputParser
+)
+from dotenv import load_dotenv
 # from langsmith import Client
 
 
@@ -57,22 +66,20 @@ load_dotenv
 #     | llm
 #     | StrOutputParser()
 # )
+
 safety_settings_NONE=safety_settings = {
-    # HarmCategory.HARM_CATEGORY_UNSPECIFIED: HarmBlockThreshold.BLOCK_NONE, 
     HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE, 
     HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE, 
     HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE, 
     HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-    # HarmCategory.HARM_CATEGORY_RUDE_OR_ABUSIVE: HarmBlockThreshold.BLOCK_NONE, 
-    # HarmCategory.HARM_CATEGORY_PROFANITY: HarmBlockThreshold.BLOCK_NONE, 
-    # HarmCategory.HARM_CATEGORY_ALCOHOL_TOBACCO_DRUGS: HarmBlockThreshold.BLOCK_NONE, 
-    # HarmCategory.HARM_CATEGORY_OTHER: HarmBlockThreshold.BLOCK_NONE
 }
 
 google_api: str = os.environ["GOOGLE_API_KEY"]
 vertex_model: str = os.environ["vertex_model"]
-
-llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safety_settings=safety_settings_NONE)
+llm = ChatGoogleGenerativeAI(temperature=1.0,
+                            model=vertex_model, 
+                            google_api_key=google_api, 
+                            safety_settings=safety_settings_NONE)
 
 
 
@@ -107,55 +114,218 @@ llm = ChatGoogleGenerativeAI(model=vertex_model, google_api_key=google_api, safe
 #     """
 # )
 
-ANSWER_PROMPT = ChatPromptTemplate.from_template(
-    """sselalu ikuti instruksi berikut: kamu adalah seorang asisten yang akan membantu dalam mengidentifikasi topik soal.  kamu akan menerima input berupa soal opsional dan pembahasanya. Hanya hasilkan maksimal dua topik untuk setiap soal jika cuma satu yang dapat kamu idenfikasi cukup tulis satu. soal yang diberikan ke kamu merupakan soal yang salah dijawab oleh seorang siswa. dari soal tersebut kamu akan mengidentifikasi topik apa yang kiranya perlu dipelajari sehingga siswa tersebut dapat menjawab soal dengan benar.
-
-    USE curly braces at the beginning and end of your answer. jika terdapat lebih dari satu topik, gunakan tanda koma untuk memisahkan topik. dan tiap topik dibungkus dengan tanda petik. seperti berikut "topik 1", "topik 2", "topik 3"
-
-    hanya hasilkan topik berupa raw string, tidak perlu menggnunakan escpae character seperti \n atau yang lainnya.
 
 
-    berikut adalah soalnya
-    Soal: "{task}"
-    Answer:
+StringPromptTemplate=(
     """
+    {{
+        "question": "Pada sebuah pertandingan sepak bola internasional, terjadi kericuhan antar suporter yang menyebabkan korban jiwa. Hal ini disebabkan oleh perbedaan pandangan dan sikap antarsuporter yang tidak mencerminkan sikap nasionalisme. Manakah dari pernyataan berikut yang merupakan implementasi sikap nasionalisme yang tepat dalam menyikapi peristiwa tersebut?",
+        
+        "answers": [
+            {{
+                "option": "A",
+                "answer": "Menyalahkan pihak penyelenggara karena tidak bisa mengendalikan kericuhan.",
+                "order": 1,
+                "score": 0,
+                "is_true": false
+            }},
+            {{    
+                "option": "B",
+                "answer": "Mengutuk tindakan suporter yang terlibat kericuhan dan menyerukan persatuan.",
+                "order": 2,
+                "score": 5,
+                "is_true": true
+            }},
+            {{  
+                "option": "C",
+                "answer": "Menuntut pemerintah untuk membubarkan semua klub sepak bola yang suporternya terlibat kericuhan.",
+                "order": 3,
+                "score": 0,
+                "is_true": false
+            }},
+            {{
+                "option": "D",
+                "answer": "Membenarkan tindakan suporter yang terlibat kericuhan karena didasari oleh rasa cinta tanah air.",
+                "order": 4,
+                "score": 0,
+                "is_true": false
+            }},
+            {{       
+                "option": "E",
+                "answer": "Mengabaikan peristiwa tersebut karena dianggap bukan urusan pribadi.",
+                "order": 5,
+                "score": 0,
+                "is_true": false
+            }}
+        ],                
+                "explanation": "<b>Jawaban Yang Benar:</b> Mengutuk tindakan suporter yang terlibat kericuhan dan menyerukan persatuan.<br>Pernyataan ini menunjukkan sikap nasionalisme yang tepat karena mengedepankan persatuan dan kesatuan bangsa di atas perbedaan pandangan dan sikap.<br><br><b>Jawaban yang Salah:</b> <br>- Menyalahkan pihak penyelenggara karena tidak bisa mengendalikan kericuhan: Pernyataan ini tidak mencerminkan sikap nasionalisme karena menyalahkan pihak lain dan tidak mencari solusi yang konstruktif.<br><br>- Menuntut pemerintah untuk membubarkan semua klub sepak bola yang suporternya terlibat kericuhan: Pernyataan ini terlalu berlebihan dan tidak sesuai dengan prinsip nasionalisme yang mengedepankan persatuan dan kesatuan.<br><br>- Membenarkan tindakan suporter yang terlibat kericuhan karena didasari oleh rasa cinta tanah air: Pernyataan ini salah karena tindakan kekerasan tidak dapat dibenarkan dengan alasan apapun, termasuk rasa cinta tanah air.<br><br>- Mengabaikan peristiwa tersebut karena dianggap bukan urusan pribadi: Pernyataan ini menunjukkan sikap individualistik dan tidak mencerminkan sikap nasionalisme yang peduli terhadap kepentingan bangsa dan negara."
+    }}
+"""
 )
 
+response_format_prompt = PromptTemplate.from_template(StringPromptTemplate)
+
+# template = (
+#     """selalu ikuti instruksi berikut: kamu adalah seorang penguji dalam ujian Seleksi Kompetensi Bidang (SKB). Kamu bertugas untuk membuat soal SKB sesuai dengan kompetensi bidang masing-masing jabatan yang dipilih oleh calon ASN atau CPNS dalam seleksi akhir penerimaan Pegawai Negeri Sipil, dimana kamu hanya membuat soal, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal, soal yang dibuat berdasarkan pada level bloom taksonomi yang diminta. 
+
+# kamu akan menerima user prompt yang sama berkali-kali untuk membuat soal, jadi teruslah membuat soal
+
+# Terdapat 6 Level Bloom Taksonomi: mengingat, memahami, menerapkan, menganalisis, mengevaluasi dan mencipta.
+
+# Jangan batasi kreatifitas soal pada referensi, kamu bebas gunakan pengetahuanmu dalam membuat konteks.
+
+# pada explanation jelaskan secara detail pada tiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah
+
+# respon hanya berupa soal dalam bentuk json dengan struktur:  
+# -{question}, 
+
+# -{answers}[option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (if the option is correct the score is 5, if the option is wrong the score is 0), is_true(true or false)],
+
+# -{explanation} (Dari struktur answers(option,answer, order, score, is_true) Berikan penjelasan untuk setiap answer, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada opsi yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut salah, gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan dengan format : Jawaban yang salah: berisikan pembahasan masing-masing answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) dan mengapa answer tersebut salah, ALWAYS USE HTML FORMATTING)
+
+# Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi . Opsi jawaban harus beragam dan logical namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar. 
 
 
-# ANSWER_PROMPT = ChatPromptTemplate.from_template(
-#     """selalu ikuti instruksi berikut: kamu adalah seorang asisten yang akan membantu dalam membuat goals dari sebuah soal.
+# berikut adalah contoh response yang benar:
+#     {format}
+            
 
-#     buatlah sebuah goals singkat dari soal berikut dalam bentuk satu string
-#     Soal: "{task}"
+# JANGAN merespon apapun selain soal berupa JSON 
+# ALWAYS USE HTML FORMATTING
+
+# dari instruksi tersebut lakukan task berikut
+
+    
+#     Task: "{task}"
 #     Answer:
 #     """
 # )
 
+template = (
+    """
+Selalu ikuti instruksi berikut: kamu adalah ahli kebangsaan dan bahasa Indonesia tugasmu hanya membuat soal, kamu tidak bisa langsung berkomunikasi dengan pengguna karena kamu hanya bisa merespon dengan soal, soal yang dibuat berdasarkan pada level bloom taksonomi yang diminta.
 
+Anda akan menerima prompt dari pengguna berulang kali untuk membuat soal, jadi teruslah membuat soal yang baru. Terdapat 6 Level Taksonomi Bloom: Mengingat, Memahami, Menerapkan, Menganalisis, Mengevaluasi, dan Mencipta.
 
-chain = (
-    {"task": RunnablePassthrough()}
-    | ANSWER_PROMPT
-    | llm
-    | StrOutputParser()
+Jangan batasi kreativitas soal pada referensi, Anda bebas menggunakan pengetahuan Anda dalam membuat konteks. Pada penjelasan (explanation), jelaskan secara detail pada setiap opsi mengapa opsi tersebut benar dan mengapa opsi tersebut salah.
+
+Respons hanya berupa soal dalam bentuk JSON dengan struktur:
+
+{question} (Buatlah pertanyaan yang sesuai dengan level Taksonomi Bloom yang diminta)
+
+{answers}
+[option (Opsi hanya berisikan indikator dari opsi, yaitu dari A-E), answer (Berisikan konteks string opsi jawaban), order (1-5), score (Jika opsi benar, skor adalah 5. Jika opsi salah, skor adalah 0), is_true (true atau false)]
+
+{explanation}
+(Dari struktur answers[option, answer, order, score, is_true], berikan penjelasan untuk setiap answer. Selalu gunakan answer dari answers, jangan menggunakan indikator opsinya untuk merujuk pada opsi yang dimaksud. Jelaskan secara detail pada setiap answer mengapa answer tersebut benar atau mengapa answer tersebut salah, gunakan format sebagai berikut:
+
+Jawaban Yang Benar: [Tulis isi dari answer tanpa indikator opsi] lalu pembahasan mengapa answer tersebut benar.
+
+Jawaban yang salah: [Berisikan pembahasan masing-masing answer lainnya (hanya tulis isi dari answer tanpa indikator opsi)] dan mengapa answer tersebut salah.
+
+SELALU GUNAKAN FORMATTING HTML)
+
+Pilihan ganda dibuat sekreatif mungkin dengan 5 opsi. Opsi jawaban harus beragam dan logis, namun gunakan pengecoh yang mirip untuk menyamarkan kunci jawaban. Soal harus memenuhi kaidah penulisan soal pilihan ganda yang baik dan benar.
+
+Berikut adalah contoh respons yang benar:
+{format}
+
+JANGAN merespons apapun selain soal berupa JSON
+SELALU GUNAKAN FORMATTING HTML
+
+dari instruksi tersebut lakukan task berikut
+
+Task: 
+
+"{task}" 
+
+"""
 )
 
-# ans = chain.invoke()
 
 
+class Question(BaseModel):
+    question: str = Field(
+        description="berisikan pertanyaan yang berkualitas berdasarkan task yang diminta")
+    answers: list = Field(
+        description="list yang berisikan struktur sebagai berikut: [option (option hanya berisikan indikator dari opsi yaitu dari A-E), answer(berisikan konteks string opsi jawaban), order (1-5) , score (if the option is correct the score is 5, if the option is wrong the score is 0, only one option is correct), is_true(true or false)]")
+    explanation: str = Field(
+        description="Dari struktur answers(option,answer, order, score, is_true) Berikan penjelasan untuk setiap answer, selalu gunakan answer dari answers jangan menggunakan indikator optionnya untuk merujuk pada opsi yang dimaksud, jelaskan secara detail pada tiap answer mengapa answer tersebut benar atau mengapa answer tersebut salah, gunakan format sebagai berikut: Jawaban Yang Benar: Answer(hanya tulis isi dari answer tanpa option indikator karena tidak penting) lalu pembahasan mengapa answer tersebut benar, lalu dilanjutkan dengan format : Jawaban yang salah: berisikan pembahasan masing-masing answer lainnya(hanya tulis isi dari answer tanpa option indikator karena tidak penting) dan mengapa answer tersebut salah, ALWAYS USE HTML FORMATTING")
 
 
+parser = PydanticOutputParser(pydantic_object=Question)
 
 
+check_option_prompt = PromptTemplate.from_template("dari input ini periksalah option dengan poin 1 sulit untuk dibedakan dengan option lainnya jika masih terlalu mudah silahkan ubah optionnya tapi ganti kontennya saja jangan ganti hal lainnya. struktur input yang diterima responselah dengan strukture yang sama /n {json_question_format}")
+
+
+# retry_parser = RetryOutputParser.from_llm(parser=parser, llm=llm)
+# retry_parser.parse_with_prompt(bad_response, prompt_value)
+# response_schemas = [
+#     ResponseSchema(
+#         name="question", 
+#         description="question to answer"),
+#     ResponseSchema(
+#         name="answers",
+#         description="option to choose",
+#     ),
+#     ResponseSchema(
+#         name="explanation",
+#         description="explanation of the answer",
+#     )
+# ]
+# output_parser = StructuredOutputParser.from_response_schemas(response_schemas)
+
+
+# format_instructions = output_parser.get_format_instructions()
+prompt = PromptTemplate(
+    template=template,
+    input_variables=['task'],
+    partial_variables={"question": parser.get_format_instructions(), "answers": parser.get_format_instructions(), "explanation": parser.get_format_instructions()},
+)
+
+input_prompts = [
+    ("format", response_format_prompt),
+]
+
+pipeline_prompt = PipelinePromptTemplate(
+    final_prompt=prompt, pipeline_prompts=input_prompts
+)
+# chain = (
+#     {"task": RunnablePassthrough()}
+#     | ANSWER_PROMPT
+#     | llm
+#     | parser
+# )
+chain = (
+    {"task": RunnablePassthrough()}
+    | pipeline_prompt 
+    | llm 
+    | {"json_question_format" : StrOutputParser()}
+    | check_option_prompt
+    | llm
+    | parser
+)
+
+# main_chain = RunnableParallel(
+#     completion=chain,
+#     prompt_value=prompt
+# ) | RunnableLambda(lambda x: retry_parser.parse_with_prompt(**x))
+
+# ans = chain.invoke(user_prompt)
+
+# retry_parser = RetryOutputParser.from_llm(
+#     llm=chain.llm, 
+#     parser=parser, 
+#     max_retries=3
+# )
 
 # Add typing for input
-class Question(BaseModel):
+class InputPrompt(BaseModel):
     __root__: str
     # input:InputPrompt
     # metadata: str
 
 
-chain = chain.with_types(input_type=Question)
-
+chain = chain.with_types(input_type=InputPrompt)
 
