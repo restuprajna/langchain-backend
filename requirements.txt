@@ -1,7 +1,10 @@
 langchain
 langchain-cli
+langsmith
 python-dotenv
 google-cloud-discoveryengine
 langchain-community
 langchain_google_genai
 langchain-openai
+pymongo
+langchain-mongodb

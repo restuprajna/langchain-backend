@@ -58,8 +58,9 @@ async def protected_route(token: str = Depends(validate_token)):
 # Edit this to add the chain you want to add
 from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_search_chain
 from openai_api import chain as openai_api_chain
+from mongo_rag import chain as mongo_rag_chain
 
-# add_routes(app, rag_google_cloud_vertexai_search_chain, path="/rag-google-cloud-vertexai-search")
+add_routes(app, mongo_rag_chain, path="/test-api")
 vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/vertex-ai")
 @app.post("/vertex-ai/{instance_id}/invoke", include_in_schema=True)
 async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
@@ -78,6 +79,32 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     path = f"/vertex-ai/{instance_id}/batch"
     response = await batch_api(rag_google_cloud_vertexai_search_chain, path, request)
     return response
+
+# @app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
+# async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+#     """
+#     Route protected by token validation.
+#     """
+#     path = f"/vertex-ai/{instance_id}/mongo-rag/batch"
+#     response = await batch_api(mongo_rag_chain, path, request)
+#     return response
+
+@app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+    """
+    Route protected by token validation.
+    """
+    path = f"/vertex-ai/{instance_id}/mongo-rag/batch"
+    response = await batch_api(mongo_rag_chain, path, request)
+    
+    # Assuming response is a dictionary containing the parsed JSON response
+    # category_value = response.get("kwargs", {})
+    
+    return {
+        "response": response,
+        "category" : instance_id
+    }
+
 
 
 
