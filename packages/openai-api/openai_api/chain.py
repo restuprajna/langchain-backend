@@ -111,8 +111,6 @@ chain = (
 
 
 
-
-
 # Add typing for input
 class Question(BaseModel):
     __root__: str

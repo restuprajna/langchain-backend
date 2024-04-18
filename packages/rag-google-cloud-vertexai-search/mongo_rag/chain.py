@@ -40,15 +40,16 @@ atlas_cluster_uri: str = os.environ["MONGODB_ATLAS_CLUSTER_URI"]
 client = MongoClient(atlas_cluster_uri)
 
 DB_NAME: str = os.environ["DB_NAME"]
-COLLECTION_NAME: str = os.environ["COLLECTION_NAME"]
+EMBEDDING_COLLECTION_NAME: str = os.environ["EMBEDDING_COLLECTION"]
 ATLAS_VECTOR_SEARCH_INDEX_NAME: str = os.environ["ATLAS_VECTOR_SEARCH_INDEX_NAME"]
 
-MONGODB_COLLECTION = client[DB_NAME][COLLECTION_NAME]
+MONGODB_COLLECTION = client[DB_NAME][EMBEDDING_COLLECTION_NAME]
 
 
 # setup embedding model
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-google_embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=google_api)
+embedding_model: str = os.environ["embedding_model"]
+google_embeddings = GoogleGenerativeAIEmbeddings(model=embedding_model, google_api_key=google_api)
 
 
 # declare vector store
