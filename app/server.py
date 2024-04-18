@@ -257,6 +257,7 @@ def process_file(file_content: str, category: str):
         return {"message": "File processed and uploaded to vector database."}
     except Exception as e:
         # Handle any exceptions that occur during file processing
+        os.remove(file_content)
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
