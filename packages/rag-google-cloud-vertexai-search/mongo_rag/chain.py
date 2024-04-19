@@ -246,7 +246,7 @@ pipeline_prompt = PipelinePromptTemplate(
 # )
 
 chain = (
-    {"context": retriever | RunnablePassthrough(print), "task": RunnablePassthrough(print)}
+    {"context": retriever | RunnablePassthrough(), "task": RunnablePassthrough()}
     | pipeline_prompt 
     | llm 
     | parser
