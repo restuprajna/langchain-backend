@@ -356,6 +356,20 @@ class Question(BaseModel):
 
 parser = PydanticOutputParser(pydantic_object=Question)
 
+
+check_option_prompt = PromptTemplate.from_template(
+    """
+    kamu adalah asisten untuk membantu dalam validasi soal periksalah:
+
+    tiap question jika memiliki question yang pendek maka perbaikilah agar memiliki konteks yang lebih panjang (panjang minimal 50 kata)
+    
+    tiap answers pastikan scorenya unique dari rentan satu sama lain dari rentang 1 sampai 5, jika masih ada option yang memiliki score yang sama maka perbaiki. Lalu periksa juga untuk option diharapkan agar sulit untuk dijawab tiap answer dirancang agar tidak memiliki jawaban yang salah. dan jika ada answer dengan konteks yang pendek buat agar lebih panjang (minimal 25 kata)
+    
+    struktur input yang diterima berupa json responselah dengan hasil perbaikan dengan strukture yang sama
+    berikut adalah soalnya
+    {json_question_format}
+    """)
+
 # retry_parser = RetryOutputParser.from_llm(parser=parser, llm=llm)
 # retry_parser.parse_with_prompt(bad_response, prompt_value)
 # response_schemas = [
@@ -387,16 +401,21 @@ input_prompts = [
 pipeline_prompt = PipelinePromptTemplate(
     final_prompt=prompt, pipeline_prompts=input_prompts
 )
+
 # chain = (
-#     {"task": RunnablePassthrough()}
-#     | ANSWER_PROMPT
-#     | llm
-#     | parser
+#     {"task": RunnablePassthrough()} |
+#     pipeline_prompt | llm | parser
 # )
 chain = (
-    {"task": RunnablePassthrough()} |
-    pipeline_prompt | llm | parser
+    {"task": RunnablePassthrough()}
+    | pipeline_prompt 
+    | llm 
+    | {"json_question_format" : StrOutputParser()}
+    | check_option_prompt
+    | llm
+    | parser
 )
+
 
 # main_chain = RunnableParallel(
 #     completion=chain,
