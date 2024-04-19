@@ -119,11 +119,11 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     # Assuming response is a dictionary containing the parsed JSON response
     # category_value = response.get("kwargs", {})
     
-    # return response
-    return {
-        "response": response,
-        # "category" : instance_id
-    }
+    return response
+    # return {
+    #     "response": response,
+    #     # "category" : instance_id
+    # }
 
 
 
