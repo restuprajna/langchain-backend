@@ -67,6 +67,7 @@ async def protected_route(token: str = Depends(validate_token)):
 # Edit this to add the chain you want to add
 from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_search_chain
 from openai_api import chain as openai_api_chain
+from vertex_tkp_chain import chain as vertex_tkp_chain
 from mongo_rag import chain as mongo_rag_chain
 
 add_routes(app, mongo_rag_chain, path="/test-api")
@@ -87,6 +88,15 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     """
     path = f"/vertex-ai/{instance_id}/batch"
     response = await batch_api(rag_google_cloud_vertexai_search_chain, path, request)
+    return response
+
+@app.post("/vertex-ai/{instance_id}/soal-tkp/batch", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+    """
+    Route protected by token validation.
+    """
+    path = f"/vertex-ai/{instance_id}/soal-tkp/batch"
+    response = await batch_api(vertex_tkp_chain, path, request)
     return response
 
 # @app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
@@ -164,7 +174,7 @@ async def batch_api(api_chain, path: str, request: Request) -> Response:
 # UPLOAD FILE TO VECTOR DB
 
 @app.post("/upload_file", include_in_schema=True)
-async def upload_file(uploaded_file: UploadFile = File(...), category: str = Body(...)):
+async def upload_file(uploaded_file: UploadFile = File(...), category_id: str = Body(...)):
     try:
         # Process the uploaded file
         # file_content = await file.read()  # Read file content as bytes
@@ -175,7 +185,7 @@ async def upload_file(uploaded_file: UploadFile = File(...), category: str = Bod
         with open(file_location, "wb+") as file_object:
             file_object.write(uploaded_file.file.read())
 
-        return process_file(file_location, category)
+        return process_file(file_location, category_id)
     except Exception as e:
         # Handle any exceptions that occur during file processing
         raise HTTPException(status_code=500, detail=str(e))
@@ -191,22 +201,22 @@ ATLAS_VECTOR_SEARCH_INDEX_NAME: str = os.environ["ATLAS_VECTOR_SEARCH_INDEX_NAME
 DOCUMENT_COLLECTION = client[DB_NAME][EMBEDDING_COLLECTION_NAME]
 embedding_model:str = os.environ["embedding_model"]
 
-def add_category(category: str):
-    global DB_NAME
-    global client
+# def add_category(category: str):
+#     global DB_NAME
+#     global client
 
-    CATEGORY_COLLECTION_NAME: str = os.environ["CATEGORY_COLLECTION"]
+#     CATEGORY_COLLECTION_NAME: str = os.environ["CATEGORY_COLLECTION"]
 
-    CATEGORY_COLLECTION = client[DB_NAME][CATEGORY_COLLECTION_NAME]
+#     CATEGORY_COLLECTION = client[DB_NAME][CATEGORY_COLLECTION_NAME]
 
-    category_doc = {
-        "category": category
-    }
-    category_res = CATEGORY_COLLECTION.insert_one(category_doc)
-    category_id = category_res.inserted_id
-    return category_id
+#     category_doc = {
+#         "category": category
+#     }
+#     category_res = CATEGORY_COLLECTION.insert_one(category_doc)
+#     category_id = category_res.inserted_id
+#     return category_id
 
-def process_file(file_content: str, category: str):
+def process_file(file_content: str, category_id: str):
     global google_api
     global atlas_cluster_uri
     global DB_NAME
@@ -228,8 +238,7 @@ def process_file(file_content: str, category: str):
         # Split the pages into chunks
         pages = loader.load_and_split(text_splitter=RecursiveCharacterTextSplitter(chunk_size=5000, chunk_overlap=1000))
 
-        
-        category_id = add_category(category)
+        # category_id = add_category(category)
         # Add the category metadata to each chunk
         for page in pages:
             page.metadata['category_id'] = ObjectId(category_id)
