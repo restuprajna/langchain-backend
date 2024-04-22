@@ -105,7 +105,7 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     """
     Route protected by token validation.
     """
-    path = f"/vertex-ai/{instance_id}/soal-tkp/batch"
+    path = f"/vertex-ai/{instance_id}/soal-pppk/batch"
     response = await batch_api(soal_pppk_chain, path, request)
     return response
 
