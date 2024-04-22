@@ -109,6 +109,15 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     response = await batch_api(soal_pppk_chain, path, request)
     return response
 
+@app.post("/vertex-ai/{instance_id}/soal-pppk/invoke", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+    """
+    Route protected by token validation.
+    """
+    path = f"/vertex-ai/{instance_id}/soal-pppk/invoke"
+    response = await invoke_api(soal_pppk_chain, path, request)
+    return response
+
 
 # @app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
 # async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
