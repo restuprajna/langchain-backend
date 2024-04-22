@@ -46,7 +46,15 @@ ENV PORT=8080
 
 CMD exec uvicorn app.server:app --host 0.0.0.0 --port $PORT
 
-# CMD langchain serve --host 0.0.0.0 --port $PORT
+# command in hot reload
+# CMD exec uvicorn app.server:app --host 0.0.0.0 --port $PORT --reload
+
+# docker build image 
+# docker build -t langchain-api
+
+# docker start container
+# docker run -p 80:8080 --env-file .env --name langchain-api -v ./:/app -d --restart unless-stopped langchain-api
 
 
-# CMD ["langchain", "serve", "--host", "0.0.0.0", "--port", "8000"]
+# docker restart container
+# docker container restart <container-name>
