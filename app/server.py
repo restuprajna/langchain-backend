@@ -70,6 +70,7 @@ from openai_api import chain as openai_api_chain
 from vertex_tkp_chain import chain as vertex_tkp_chain
 from mongo_rag import chain as mongo_rag_chain
 from soal_pppk import chain as soal_pppk_chain
+from generate_goals import chain as generate_goals_chain
 
 add_routes(app, mongo_rag_chain, path="/test-api")
 vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/vertex-ai")
@@ -144,6 +145,16 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     #     "response": response,
     #     # "category" : instance_id
     # }
+
+
+@app.post("/vertex-ai/{instance_id}/genereate-goals/batch", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+    """
+    Route protected by token validation.
+    """
+    path = f"/vertex-ai/{instance_id}/generate-goals/batch"
+    response = await batch_api(generate_goals_chain, path, request)
+    return response
 
 
 
