@@ -14,7 +14,6 @@ uvicorn = "^0.23.2"
 langserve = {extras = ["server"], version = ">=0.0.30"}
 pydantic = "<2"
 rag-google-cloud-vertexai-search = {path = "packages/rag-google-cloud-vertexai-search", develop = true}
-openai-api = {path = "packages/openai-api", develop = true}
 python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]

@@ -44,7 +44,11 @@ async def validate_token(token: str = Depends(bearer)):
 #     return os.getenv("OPENAI_API_KEY")
 
 import sys
-sys.path.append("../packages")
+# sys.path.append("../packages")
+sys.path.append(os.path.abspath("../packages"))
+print(sys.path)
+
+# packages/rag-google-cloud-vertexai-search/rag_google_cloud_vertexai_search
 
 
 # @app.get("/")
@@ -63,14 +67,13 @@ async def protected_route(token: str = Depends(validate_token)):
     return {"message": "You are authorized!"}
 
 
-
 # Edit this to add the chain you want to add
 from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_search_chain
-from openai_api import chain as openai_api_chain
-from vertex_tkp_chain import chain as vertex_tkp_chain
-from mongo_rag import chain as mongo_rag_chain
-from soal_pppk import chain as soal_pppk_chain
-from generate_goals import chain as generate_goals_chain
+# from openai_api import chain as openai_api_chain
+# from vertex_tkp_chain import chain as vertex_tkp_chain
+# from mongo_rag import chain as mongo_rag_chain
+# from soal_pppk import chain as soal_pppk_chain
+# from generate_goals import chain as generate_goals_chain
 
 add_routes(app, mongo_rag_chain, path="/test-api")
 vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/vertex-ai")
