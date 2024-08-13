@@ -69,9 +69,10 @@ async def protected_route(token: str = Depends(validate_token)):
 
 # Edit this to add the chain you want to add
 from rag_google_cloud_vertexai_search import chain as rag_google_cloud_vertexai_search_chain
+from mongo_rag import chain as mongo_rag_chain
 # from openai_api import chain as openai_api_chain
 # from vertex_tkp_chain import chain as vertex_tkp_chain
-# from mongo_rag import chain as mongo_rag_chain
+
 # from soal_pppk import chain as soal_pppk_chain
 # from generate_goals import chain as generate_goals_chain
 
@@ -95,32 +96,8 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     response = await batch_api(rag_google_cloud_vertexai_search_chain, path, request)
     return response
 
-@app.post("/vertex-ai/{instance_id}/soal-tkp/batch", include_in_schema=True)
-async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-    """
-    Route protected by token validation.
-    """
-    path = f"/vertex-ai/{instance_id}/soal-tkp/batch"
-    response = await batch_api(vertex_tkp_chain, path, request)
-    return response
 
-@app.post("/vertex-ai/{instance_id}/soal-pppk/batch", include_in_schema=True)
-async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-    """
-    Route protected by token validation.
-    """
-    path = f"/vertex-ai/{instance_id}/soal-pppk/batch"
-    response = await batch_api(soal_pppk_chain, path, request)
-    return response
 
-@app.post("/vertex-ai/{instance_id}/soal-pppk/invoke", include_in_schema=True)
-async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-    """
-    Route protected by token validation.
-    """
-    path = f"/vertex-ai/{instance_id}/soal-pppk/invoke"
-    response = await invoke_api(soal_pppk_chain, path, request)
-    return response
 
 
 # @app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
@@ -150,14 +127,6 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
     # }
 
 
-@app.post("/vertex-ai/{instance_id}/genereate-goals/batch", include_in_schema=True)
-async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-    """
-    Route protected by token validation.
-    """
-    path = f"/vertex-ai/{instance_id}/generate-goals/batch"
-    response = await batch_api(generate_goals_chain, path, request)
-    return response
 
 
 
@@ -166,23 +135,7 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
 
 # add_routes(app, openai_api_chain, path="/openai-api")
 
-@app.post("/openai-api/{instance_id}/invoke", include_in_schema=True)
-async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-    """
-    Route protected by token validation.
-    """
-    path = f"/openai-api/{instance_id}/invoke"
-    response = await invoke_api(openai_api_chain, path, request)
-    return response
 
-@app.post("/openai-api/{instance_id}/batch", include_in_schema=True)
-async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-    """
-    Route protected by token validation.
-    """
-    path = f"/openai-api/{instance_id}/batch"
-    response = await batch_api(openai_api_chain, path, request)
-    return response
 
 
 # define invoke, batch and stream method
