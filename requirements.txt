@@ -11,3 +11,5 @@ pypdf==4.2.0
 langfuse==2.33.0
 pyjwt==2.3.0
 cryptography==42.0.7
+pydantic==1.10.13
+poetry==1.6.1

@@ -76,7 +76,7 @@ from mongo_rag import chain as mongo_rag_chain
 # from soal_pppk import chain as soal_pppk_chain
 # from generate_goals import chain as generate_goals_chain
 
-add_routes(app, mongo_rag_chain, path="/test-api")
+# add_routes(app, mongo_rag_chain, path="/test-api")
 vertex_api_handler = APIHandler(rag_google_cloud_vertexai_search_chain, path="/vertex-ai")
 @app.post("/vertex-ai/{instance_id}/invoke", include_in_schema=True)
 async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
@@ -109,22 +109,22 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
 #     response = await batch_api(mongo_rag_chain, path, request)
 #     return response
 
-@app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
-async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-    """
-    Route protected by token validation.
-    """
-    path = f"/vertex-ai/{instance_id}/mongo-rag/batch"
-    response = await batch_api(mongo_rag_chain, path, request)
+# @app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
+# async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+#     """
+#     Route protected by token validation.
+#     """
+#     path = f"/vertex-ai/{instance_id}/mongo-rag/batch"
+#     response = await batch_api(mongo_rag_chain, path, request)
     
-    # Assuming response is a dictionary containing the parsed JSON response
-    # category_value = response.get("kwargs", {})
+#     # Assuming response is a dictionary containing the parsed JSON response
+#     # category_value = response.get("kwargs", {})
     
-    return response
-    # return {
-    #     "response": response,
-    #     # "category" : instance_id
-    # }
+#     return response
+#     # return {
+#     #     "response": response,
+#     #     # "category" : instance_id
+#     # }
 
 
 
