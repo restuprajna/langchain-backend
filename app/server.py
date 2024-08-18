@@ -100,31 +100,31 @@ async def protected_route_openai(instance_id: str, token: str = Depends(validate
 
 
 
-# @app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
-# async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-#     """
-#     Route protected by token validation.
-#     """
-#     path = f"/vertex-ai/{instance_id}/mongo-rag/batch"
-#     response = await batch_api(mongo_rag_chain, path, request)
-#     return response
+@app.post("/vertex-ai/{instance_id}/mongo-rag/invoke", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+    try:
+        path = f"/vertex-ai/{instance_id}/mongo-rag/batch"
+        response = await invoke_api(mongo_rag_chain, path, request)
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Status code: 500, Error: {str(e)}")
 
-# @app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
-# async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
-#     """
-#     Route protected by token validation.
-#     """
-#     path = f"/vertex-ai/{instance_id}/mongo-rag/batch"
-#     response = await batch_api(mongo_rag_chain, path, request)
+@app.post("/vertex-ai/{instance_id}/mongo-rag/batch", include_in_schema=True)
+async def protected_route_openai(instance_id: str, token: str = Depends(validate_token), request: Request = None):
+    """
+    Route protected by token validation.
+    """
+    path = f"/vertex-ai/{instance_id}/mongo-rag/batch"
+    response = await batch_api(mongo_rag_chain, path, request)
     
-#     # Assuming response is a dictionary containing the parsed JSON response
-#     # category_value = response.get("kwargs", {})
+    # Assuming response is a dictionary containing the parsed JSON response
+    # category_value = response.get("kwargs", {})
     
-#     return response
-#     # return {
-#     #     "response": response,
-#     #     # "category" : instance_id
-#     # }
+    return response
+    # return {
+    #     "response": response,
+    #     # "category" : instance_id
+    # # }
 
 
 
@@ -228,7 +228,7 @@ def process_file(file_content: str, category_id: str):
         # category_id = add_category(category)
         # Add the category metadata to each chunk
         for page in pages:
-            page.metadata['category_id'] = ObjectId(category_id)
+            page.metadata['category_id'] = category_id
 
         # Declare the embedding model
         google_embeddings = GoogleGenerativeAIEmbeddings(model=embedding_model, google_api_key=google_api)
