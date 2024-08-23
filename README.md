@@ -2,14 +2,14 @@
 
 this app is an example of prompt engineering with steroid. Leveraging a technique called Retrieval Augmented Generation (RAG). RAG enhances large language models by integrating private knowledge without the need for fine-tuning.
 
-[![Uploading image.png…]()](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*J7vyY3EjY46AlduMvr9FbQ.png)
+![Alt text](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*J7vyY3EjY46AlduMvr9FbQ.png)
 
 
 Here's how RAG works:
 
 1. Create Chunks of Text: Start by segmenting your desired knowledge, such as private company data (e.g., a list of employees), into manageable chunks.
 
-2.Vectorization: Convert these text chunks into vectors (numerical representations) and store them in a vector database. In this app, MongoDB Atlas is used for this purpose.
+2. Vectorization: Convert these text chunks into vectors (numerical representations) and store them in a vector database. In this app, MongoDB Atlas is used for this purpose.
 
 3. Semantic Search: When you ask a question involving private knowledge, such as "Who is the head of marketing at Company X?", the system performs a semantic search in the vector database to find the most relevant information.
 
